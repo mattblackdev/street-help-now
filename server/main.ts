@@ -1,9 +1,9 @@
 require('dotenv').config({ path: `${process.env.PWD}/.env` })
 import { Meteor } from 'meteor/meteor'
 import { Accounts } from 'meteor/accounts-base'
-import 'src/users/publish'
-import 'src/resources/publish'
-import { ResourceType, ResourceTypesCollection } from 'src/resources/api'
+import '/imports/users/publish'
+import '/imports/resources/publish'
+import { ResourceType, ResourceTypesCollection } from '/imports/resources/api'
 
 type ResourceTypeCreate = Omit<ResourceType, 'createdAt' | '_id'>
 function insertResourceType(resourceTypeCreate: ResourceTypeCreate) {

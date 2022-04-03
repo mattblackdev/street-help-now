@@ -1,9 +1,9 @@
 import React, { Suspense } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { Home } from 'src/resources/Home'
-import { Login } from '../users/Login'
-import { Profile } from '../users/Profile'
-import { Signup } from '../users/Signup'
+import { Home } from '/imports/resources/Home'
+import { Login } from '/imports/users/Login'
+import { Profile } from '/imports/users/Profile'
+import { Signup } from '/imports/users/Signup'
 import { Layout } from './Layout'
 
 export function App() {

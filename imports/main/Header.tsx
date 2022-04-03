@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { useUsername } from 'src/users/useUser'
+import { useUsername } from '/imports/users/useUser'
 
 export function Header() {
   return (

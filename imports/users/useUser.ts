@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import { useTracker } from 'meteor/react-meteor-data'
-import useSubscription from 'src/utilities/useSubscription'
+import useSubscription from '/imports/utilities/useSubscription'
 
 export function useIsAdmin() {
   useSubscription('currentUser')

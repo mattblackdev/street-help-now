@@ -1,5 +1,5 @@
 import React, { forwardRef, InputHTMLAttributes } from 'react'
-import { ctl } from 'src/utilities/ctl'
+import { ctl } from '/imports/utilities/ctl'
 
 type TextInputProps = InputHTMLAttributes<HTMLInputElement> & {
   error?: boolean

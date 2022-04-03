@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { ExternalLink } from 'src/components/ExternalLink'
-import { Show } from 'src/components/Show'
+import { ExternalLink } from '/imports/components/ExternalLink'
+import { Show } from '/imports/components/Show'
 import { ResourceType } from './api'
 
 type CardListProps = { showEdit: boolean; resourceTypes: ResourceType[] }

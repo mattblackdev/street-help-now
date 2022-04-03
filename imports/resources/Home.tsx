@@ -1,6 +1,6 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
-import { useIsAdmin } from 'src/users/useUser'
+import { useIsAdmin } from '/imports/users/useUser'
 import { CardsList } from './CardsList'
 import { Resource } from './Resource'
 import { useResourceTypes } from './useResourceTypes'

@@ -2,10 +2,10 @@ import { Accounts } from 'meteor/accounts-base'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import { Form, SmallFormContainer } from 'src/components/Form'
-import { Submit } from 'src/components/Submit'
-import { TextInput } from 'src/components/TextInput'
-import { PasswordPattern, UsernamePattern } from 'src/main/constants'
+import { Form, SmallFormContainer } from '/imports/components/Form'
+import { Submit } from '/imports/components/Submit'
+import { TextInput } from '/imports/components/TextInput'
+import { PasswordPattern, UsernamePattern } from '/imports/main/constants'
 
 export function Signup() {
   const [failed, setFailed] = useState(false)

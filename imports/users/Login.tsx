@@ -2,9 +2,9 @@ import { Meteor } from 'meteor/meteor'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import { Form, SmallFormContainer } from 'src/components/Form'
-import { Submit } from 'src/components/Submit'
-import { TextInput } from 'src/components/TextInput'
+import { Form, SmallFormContainer } from '/imports/components/Form'
+import { Submit } from '/imports/components/Submit'
+import { TextInput } from '/imports/components/TextInput'
 
 export function Login() {
   const [failed, setFailed] = useState(false)
