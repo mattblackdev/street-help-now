@@ -30,7 +30,7 @@ export function Header() {
 function UsernameOrLogin() {
   const { pathname } = useLocation()
   const username = useUsername()
-  const showLogin = !username && !pathname.includes('login')
+  const showLogin = !username && pathname !== '/login'
   const showProfile = !!username
 
   if (showLogin) {
@@ -53,7 +53,7 @@ function Signup() {
   const { pathname } = useLocation()
   const username = useUsername()
   const showSignUp =
-    !username && !pathname.includes('signup') && !pathname.includes('login')
+    !username && pathname !== '/signup' && pathname !== '/login'
 
   if (showSignUp) {
     return (
@@ -62,5 +62,6 @@ function Signup() {
       </Link>
     )
   }
+
   return null
 }

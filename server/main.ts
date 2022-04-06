@@ -3,12 +3,32 @@ import { Meteor } from 'meteor/meteor'
 import { Accounts } from 'meteor/accounts-base'
 import '/imports/users/publish'
 import '/imports/resources/publish'
-import { ResourceType, ResourceTypesCollection } from '/imports/resources/api'
+import {
+  Resource,
+  Resources,
+  ResourceType,
+  ResourceTypes,
+} from '/imports/resources/api'
+import { Users } from '/imports/users/api'
+
+Resources.createIndex(
+  { resourceTypeId: 1 },
+  { name: 'ResourceType reference on resources' }
+)
+Resources.createIndex({ createdBy: 1 }, { name: 'User reference on resources' })
 
 type ResourceTypeCreate = Omit<ResourceType, 'createdAt' | '_id'>
 function insertResourceType(resourceTypeCreate: ResourceTypeCreate) {
-  ResourceTypesCollection.insert({
+  ResourceTypes.insert({
     ...resourceTypeCreate,
+    createdAt: new Date(),
+  })
+}
+
+type ResourceCreate = Omit<Resource, 'createdAt' | '_id'>
+function insertResource(resourceCreate: ResourceCreate) {
+  Resources.insert({
+    ...resourceCreate,
     createdAt: new Date(),
   })
 }
@@ -20,22 +40,27 @@ Meteor.startup(() => {
   })
 
   // If no users add admin
-  if (Meteor.users.find().count() === 0) {
+  if (
+    Meteor.isDevelopment &&
+    process.env.ADMIN_PW &&
+    Users.find().count() === 0
+  ) {
     const userId = Accounts.createUser({
       username: 'admin',
       password: process.env.ADMIN_PW,
     })
-    Meteor.users.update(userId, { $set: { roles: ['admin'] } })
+    Users.update(userId, { $set: { roles: ['admin'] } })
     console.log('Created admin user', userId)
   }
-  // If the Links collection is empty, add some data.
-  if (ResourceTypesCollection.find().count() === 0) {
-    console.log('Asuhhduhh... Seeded resourceTypes')
+
+  // If the ResourceTypes collection is empty, add some data.
+  if (ResourceTypes.find().count() === 0) {
+    console.log('Asuhhduh... Seeded resourceTypes')
     insertResourceType({
       title: 'Food',
       slug: 'food',
-      url: 'https://docs.google.com/spreadsheets/d/1tmKLW3Gf0tFtTApss8VEUQ-KVWzBF8XjzzoJCfBWuOs/edit?usp=sharing',
       emoji: '🍱',
+      components: [{ name: 'title' }, { name: 'description' }],
     })
     insertResourceType({
       title: 'Shelter',
@@ -78,6 +103,18 @@ Meteor.startup(() => {
       slug: 'events',
       url: 'https://docs.google.com/spreadsheets/d/1eASWnPy5TCvztHwGfnKM5873fiNtUgRrH7CizCI7a04/edit?usp=sharing',
       emoji: '🗓',
+    })
+  }
+
+  if (Resources.find().count() === 0) {
+    console.log('Seedy seedy fooooood')
+    const foodId = ResourceTypes.findOne({ slug: 'food' })?._id ?? 'doof'
+    const adminId = Users.findOne({ username: 'admin' })?._id ?? 'nimda'
+    insertResource({
+      resourceTypeId: foodId,
+      createdBy: adminId,
+      title: 'Applez',
+      description: 'Some lovely red apples',
     })
   }
 })

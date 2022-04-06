@@ -1,10 +1,11 @@
 import { Meteor } from 'meteor/meteor'
+import { Subs, Users } from './api'
 
-Meteor.publish('currentUser', function () {
+Meteor.publish(Subs.currentUser, function () {
   const { userId } = this
   if (!userId) return []
 
-  return Meteor.users.find(
+  return Users.find(
     { _id: userId },
     {
       fields: { _id: 1, createdAt: 1, username: 1, roles: 1 },

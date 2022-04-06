@@ -1,7 +1,11 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
-  content: ['./client/*.{css,html,tsx}', './imports/**/*.{tsx,html}'],
+  content: [
+    './client/*.{css,html,tsx}',
+    './imports/**/*.{tsx,html}',
+    './node_modules/react-tailwind-table/dist/index.modern.js',
+  ],
   theme: {
     boxShadowColor: {
       DEFAULT: '#000000',

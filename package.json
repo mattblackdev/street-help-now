@@ -32,6 +32,7 @@
     "react-dom": "^17.0.2",
     "react-hook-form": "^7.28.1",
     "react-router-dom": "^6.2.2",
+    "react-tailwind-table": "^1.1.1",
     "use-asset": "^1.0.4"
   },
   "devDependencies": {

@@ -2,8 +2,9 @@ import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { useIsAdmin } from '/imports/users/useUser'
 import { CardsList } from './CardsList'
-import { Resource } from './Resource'
+import { ResourceLayout } from './ResourceLayout'
 import { useResourceTypes } from './useResourceTypes'
+import { ResourceList } from './ResourceList'
 
 export function Home() {
   const resourceTypes = useResourceTypes()
@@ -20,11 +21,11 @@ export function Home() {
           <Route
             key={resourceType._id}
             path={resourceType.slug}
-            element={<Resource resourceType={resourceType} />}
+            element={<ResourceLayout resourceType={resourceType} />}
           >
             <Route
               index
-              element={<div>{resourceType.title} default view</div>}
+              element={<ResourceList resourceType={resourceType} />}
             />
             {isAdmin ? (
               <Route
