@@ -7,13 +7,20 @@ module.exports = {
     './node_modules/react-tailwind-table/dist/index.modern.js',
   ],
   theme: {
-    boxShadowColor: {
-      DEFAULT: '#000000',
-    },
     transitionDuration: {
       DEFAULT: '322ms',
     },
     extend: {
+      boxShadowColor: {
+        DEFAULT: '#160116',
+        xs: '#160116',
+        sm: '#160116',
+        md: '#160116',
+        lg: '#160116',
+        xl: '#160116',
+        '2xl': '#160116',
+        '3xl': '#160116',
+      },
       fontFamily: {
         sans: ['Poppins', ...defaultTheme.fontFamily.sans],
       },

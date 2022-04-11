@@ -5,11 +5,9 @@ import { Header } from './Header'
 export function Root({ children }: { children?: ReactNode }) {
   return (
     <div className="bg-stone-900 text-stone-100">
-      <div className="min-h-screen bg-crimson shadow-sm shadow-stone-900">
-        {children}
-      </div>
-      <footer className="p-16">
-        <p className="flex justify-around">
+      <div className="min-h-screen bg-crimson shadow-sm">{children}</div>
+      <footer className="h-44 flex items-end">
+        <p className="flex flex-1 pb-10 justify-around text-xl">
           <span>❤️</span>
           <span>Powered by Love</span>
           <span>❤️</span>

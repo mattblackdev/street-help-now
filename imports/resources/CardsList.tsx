@@ -18,7 +18,7 @@ export function CardsList({ resourceTypes, showEdit }: CardListProps) {
   }
 
   return (
-    <ul className="pt-1 md:pt-7 p-7 gap-7 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <ul className="px-7 pb-7 gap-7 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {resourceTypes.map(makeCard)}
     </ul>
   )
@@ -34,7 +34,7 @@ function Card({ resourceType, showEdit }: CardProps) {
       key={resourceType._id}
     >
       <LinkEl
-        className="p-7 w-full rounded-lg bg-blood shadow-md transition-all hover:bg-brightblood hover:shadow-lg select-none flex flex-1 flex-col text-center justify-center items-center group"
+        className="p-7 w-full rounded-lg bg-blood shadow transition-all hover:bg-brightblood select-none flex flex-1 flex-col text-center justify-center items-center group"
         to={resourceType.url ?? resourceType.slug}
       >
         <span className="p-4 text-7xl opacity-90">{resourceType.emoji}</span>
@@ -50,7 +50,7 @@ function Card({ resourceType, showEdit }: CardProps) {
         </div>
       </Show>
       <Show when={isExternal}>
-        <div className="absolute bottom-0 right-0 pb-2 pr-4 select-none pointer-events-none">
+        <div className="absolute bottom-0 right-0 pb-2 pr-4 select-none pointer-events-none text-xs">
           <span>External</span>
         </div>
       </Show>

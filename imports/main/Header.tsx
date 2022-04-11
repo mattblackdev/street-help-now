@@ -13,7 +13,7 @@ export function Header() {
       <h1 className="justify-self-center pl-2">
         <Link
           to="/"
-          className="whitespace-nowrap text-xl sm:text-4xl lg:text-7xl font-extrabold text-center [text-shadow:0_4px_7px_rgba(1,0,1,0.44)] hover:underline"
+          className="whitespace-nowrap transition-all text-2xl xs:3xl sm:text-4xl md:text-7xl lg:text-8xl xl:text-9xl font-extrabold text-center [text-shadow:0_4px_7px_rgba(1,0,1,0.44)] hover:underline"
         >
           Street Help Now
         </Link>
