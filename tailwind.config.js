@@ -2,8 +2,8 @@ const defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
   content: [
-    './client/*.{css,html,tsx}',
-    './imports/**/*.{tsx,html}',
+    './client/**/*.{css,html,tsx,jsx,ts,js}',
+    './imports/**/*.{css,html,tsx,jsx,ts,js}',
     './node_modules/react-tailwind-table/dist/index.modern.js',
   ],
   theme: {
