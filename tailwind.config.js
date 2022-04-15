@@ -39,6 +39,15 @@ module.exports = {
         'auto-fit': 'repeat(auto-fit, minmax(0, 1fr))',
         'auto-fill': 'repeat(auto-fill, minmax(0, 1fr))',
       },
+      animation: {
+        slideOut: 'slideOut .444s',
+      },
+      keyframes: {
+        slideOut: {
+          '10%': { transform: 'translateX(7%)' },
+          '100%': { transform: 'translateX(-101%)' },
+        },
+      },
     },
   },
   plugins: [],
