@@ -1,14 +1,15 @@
 import React, { Suspense } from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
+import { Router } from '/imports/components/Router'
+import { Layout } from '/imports/main/Layout'
 import { Home } from '/imports/resources/Home'
 import { Login } from '/imports/users/Login'
 import { Profile } from '/imports/users/Profile'
 import { Signup } from '/imports/users/Signup'
-import { Layout } from './Layout'
 
 export function App() {
   return (
-    <BrowserRouter>
+    <Router>
       <Routes>
         <Route element={<Layout />}>
           <Route
@@ -24,6 +25,6 @@ export function App() {
           <Route path="profile" element={<Profile />} />
         </Route>
       </Routes>
-    </BrowserRouter>
+    </Router>
   )
 }
