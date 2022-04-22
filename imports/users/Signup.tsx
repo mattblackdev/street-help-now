@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { Form, SmallFormContainer } from '/imports/components/Form'
 import { Submit } from '/imports/components/Submit'
-import { TextInput } from '/imports/components/TextInput'
+import { Input } from '../components/Input'
 import { PasswordPattern, UsernamePattern } from '/imports/main/constants'
 
 export function Signup() {
@@ -38,7 +38,7 @@ export function Signup() {
         onSubmit={onSubmit}
         title="Create an account. We're glad you found us!"
       >
-        <TextInput
+        <Input
           {...register('username', {
             pattern: UsernamePattern,
             minLength: 2,
@@ -50,7 +50,7 @@ export function Signup() {
           error={!!errors.username}
           helpText="Use your real life name or any available username. Must be at least 2 letters or numbers."
         />
-        <TextInput
+        <Input
           {...register('password', {
             pattern: PasswordPattern,
             minLength: 10,

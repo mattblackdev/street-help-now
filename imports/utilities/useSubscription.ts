@@ -47,7 +47,7 @@ export default function useSubscription(name?: string | false, ...args: any[]) {
   // This stops the subscription on unmount (after delay)
   useEffect(
     () => () => {
-      console.log('stop called')
+      console.log(`Stopping ${name}`)
       setTimeout(() => {
         computation.stop()
       }, STOP_DELAY)

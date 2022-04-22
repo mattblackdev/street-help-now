@@ -2,6 +2,7 @@ import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { NeedButton } from '../components/NeedButton'
 import { CardsList } from './CardsList'
+import { EditResourceType } from './EditResourceType'
 import { ResourceLayout } from './ResourceLayout'
 import { ResourceList } from './ResourceList'
 import { useResourceTypes } from './useResourceTypes'
@@ -34,13 +35,7 @@ export function Home() {
               {isAdmin ? (
                 <Route
                   path="edit"
-                  element={
-                    <div className="p-7 text-xl text-center font-semibold">
-                      <span className="text-xl pr-7">🚧</span>Edit{' '}
-                      {resourceType.title}
-                      <span className="text-xl pl-7">🚧</span>
-                    </div>
-                  }
+                  element={<EditResourceType resourceType={resourceType} />}
                 />
               ) : null}
             </Route>

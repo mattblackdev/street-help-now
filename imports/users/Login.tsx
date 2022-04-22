@@ -3,8 +3,8 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { Form, SmallFormContainer } from '/imports/components/Form'
+import { Input } from '/imports/components/Input'
 import { Submit } from '/imports/components/Submit'
-import { TextInput } from '/imports/components/TextInput'
 
 export function Login() {
   const [failed, setFailed] = useState(false)
@@ -31,13 +31,13 @@ export function Login() {
   return (
     <SmallFormContainer>
       <Form onSubmit={onSubmit} title="Welcome Back :)">
-        <TextInput
+        <Input
           {...register('username', { required: true })}
           placeholder="Username"
           autoComplete="username"
           error={!!errors.username}
         />
-        <TextInput
+        <Input
           {...register('password', { required: true })}
           type="password"
           placeholder="Password"

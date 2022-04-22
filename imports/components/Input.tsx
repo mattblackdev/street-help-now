@@ -4,17 +4,19 @@ import { ctl } from '/imports/utilities/ctl'
 type TextInputProps = InputHTMLAttributes<HTMLInputElement> & {
   error?: boolean
   helpText?: string
+  hidden?: boolean
 }
 
-export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
-  ({ error, helpText, ...props }, ref) => {
+export const Input = forwardRef<HTMLInputElement, TextInputProps>(
+  ({ error, helpText, hidden, ...props }, ref) => {
     return (
-      <div className="my-7 relative">
+      <div className={ctl(`py-10 ${hidden ? 'hidden' : 'relative'}`)}>
         <input
           className={ctl(`
             peer 
-            h-10 
-            w-full 
+            h-10
+            text-xl
+            w-full
             bg-transparent 
             border-b-2
             ${error ? 'border-brightblood' : 'border-stone-400'}
@@ -32,22 +34,29 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
           className={ctl(`
           absolute 
           left-0 
-          -top-3.5 
+          top-4
           text-stone-400 
           text-sm
           cursor-pointer
           transition-all 
           peer-placeholder-shown:text-base 
-          peer-placeholder-shown:text-stone-700 
-          peer-placeholder-shown:top-2 
-          peer-focus:-top-3.5 
+          peer-placeholder-shown:text-stone-400 
+          peer-placeholder-shown:top-2
+          peer-focus:top-2
           peer-focus:text-sapphire 
           peer-focus:text-sm
         `)}
         >
-          {props.placeholder}
+          {props.required ? `${props.placeholder} *` : props.placeholder}
         </label>
-        <p className={ctl(`mt-1 text-sm ${error ? 'text-brightblood' : ''}`)}>
+        <p
+          className={ctl(
+            `text-xs ${
+              error ? 'text-brightblood' : 'text-stone-400'
+            } focus:text-sapphire
+            pt-1`
+          )}
+        >
           {helpText}
         </p>
       </div>

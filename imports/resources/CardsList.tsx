@@ -35,7 +35,7 @@ function Card({ resourceType, showEdit }: CardProps) {
     >
       <LinkEl
         className="p-7 w-full rounded-lg bg-blood shadow transition-all hover:bg-brightblood select-none flex flex-1 flex-col text-center justify-center items-center group"
-        to={resourceType.url ?? resourceType.slug}
+        to={resourceType.url || resourceType.slug}
       >
         <span className="p-4 text-7xl opacity-90">{resourceType.emoji}</span>
         <span className="p-2 text-4xl font-semibold lg:font-bold group-hover:underline">

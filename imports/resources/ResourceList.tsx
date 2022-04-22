@@ -16,7 +16,6 @@ export function ResourceList({ resourceType }: ResourceListProps) {
     .map<Icolumn>(({ name }) => ({ field: name, use: name.toUpperCase() }))
     .concat({ field: '_id', use_in_display: false })
 
-  console.log({ rows: resources, columns })
   return (
     <div className="px-4">
       <Table
