@@ -1,15 +1,16 @@
 require('dotenv').config({ path: `${process.env.PWD}/.env` })
-import { Meteor } from 'meteor/meteor'
 import { Accounts } from 'meteor/accounts-base'
-import '/imports/users/publish'
-import '/imports/resources/publish'
+import { Meteor } from 'meteor/meteor'
+import { OneHundredPattern, Title16Pattern } from '/imports/main/constants'
 import {
   Resource,
   Resources,
   ResourceType,
   ResourceTypes,
-} from '/imports/resources/api'
+} from '/imports/resources/collection'
+import '/imports/resources/publish'
 import { Users } from '/imports/users/api'
+import '/imports/users/publish'
 
 Resources.createIndex(
   { resourceTypeId: 1 },
@@ -60,7 +61,32 @@ Meteor.startup(() => {
       title: 'Food',
       slug: 'food',
       emoji: '🍱',
-      components: [{ name: 'title' }, { name: 'description' }],
+      components: [
+        {
+          key: 'title',
+          label: 'Title',
+          fields: [
+            {
+              key: 'title',
+              label: 'Title',
+              type: 'string',
+              matches: Title16Pattern.source,
+            },
+          ],
+        },
+        {
+          key: 'description',
+          label: 'Description',
+          fields: [
+            {
+              key: 'description',
+              label: 'Description',
+              type: 'string',
+              matches: OneHundredPattern.source,
+            },
+          ],
+        },
+      ],
     })
     insertResourceType({
       title: 'Shelter',
@@ -113,8 +139,10 @@ Meteor.startup(() => {
     insertResource({
       resourceTypeId: foodId,
       createdBy: adminId,
-      title: 'Applez',
-      description: 'Some lovely red apples',
+      components: {
+        title: { title: 'Applez' },
+        description: { description: 'Some lovely red apples' },
+      },
     })
   }
 })

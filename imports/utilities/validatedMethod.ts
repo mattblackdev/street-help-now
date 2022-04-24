@@ -1,12 +1,13 @@
 import { EJSONable } from 'meteor/ejson'
 import { Meteor } from 'meteor/meteor'
 import { Mongo } from 'meteor/mongo'
-import { SchemaOf, ValidationError as YupError } from 'yup'
+import { AnyObjectSchema, ValidationError as YupError } from 'yup'
 import { User, Users } from '../users/api'
+import { squareToDotted } from './yup'
 
 type ValidatedMethodArgs<Args extends EJSONable> = {
   name: string
-  schema: SchemaOf<Args>
+  schema: AnyObjectSchema
   roles?: string[]
   userFields?: Mongo.FieldSpecifier
   fun(args: Args, user: User | null): {}
@@ -26,12 +27,17 @@ export function validatedMethod<Args extends EJSONable>({
   Meteor.methods({
     [name]: function (args: Args) {
       try {
-        // @ts-ignore
-        args = schema.validateSync(args, { abortEarly: false })
+        args = schema.validateSync(args, {
+          abortEarly: false,
+          stripUnknown: true,
+        })
       } catch (e) {
         if (YupError.isError(e)) {
           const errors = e.inner.reduce((errors, error) => {
-            if (error.path) errors[error.path] = error.message
+            if (error.path) {
+              const dottedPath = squareToDotted(error.path)
+              errors[dottedPath] = error.message
+            }
             return errors
           }, new ValiantError())
           throw errors

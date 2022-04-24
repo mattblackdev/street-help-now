@@ -10,11 +10,11 @@ type TextInputProps = InputHTMLAttributes<HTMLInputElement> & {
 export const Input = forwardRef<HTMLInputElement, TextInputProps>(
   ({ error, helpText, hidden, ...props }, ref) => {
     return (
-      <div className={ctl(`py-10 ${hidden ? 'hidden' : 'relative'}`)}>
+      <div className={ctl(`mt-7 ${hidden ? 'hidden' : 'relative'}`)}>
         <input
           className={ctl(`
-            peer 
-            h-10
+            leading-8
+            peer
             text-xl
             w-full
             bg-transparent 
@@ -34,15 +34,15 @@ export const Input = forwardRef<HTMLInputElement, TextInputProps>(
           className={ctl(`
           absolute 
           left-0 
-          top-4
+          -top-5
           text-stone-400 
           text-sm
           cursor-pointer
           transition-all 
           peer-placeholder-shown:text-base 
           peer-placeholder-shown:text-stone-400 
-          peer-placeholder-shown:top-2
-          peer-focus:top-2
+          peer-placeholder-shown:-top-1
+          peer-focus:-top-5
           peer-focus:text-sapphire 
           peer-focus:text-sm
         `)}
@@ -54,7 +54,7 @@ export const Input = forwardRef<HTMLInputElement, TextInputProps>(
             `text-xs ${
               error ? 'text-brightblood' : 'text-stone-400'
             } focus:text-sapphire
-            pt-1`
+            h-4`
           )}
         >
           {helpText}

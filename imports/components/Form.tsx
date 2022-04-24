@@ -10,9 +10,9 @@ export function Form({ onSubmit, title, children }: FormProps) {
   return (
     <form
       onSubmit={onSubmit}
-      className="relative p-7 bg-stone-200 text-stone-900 rounded-md shadow"
+      className="relative p-7 pt-16 bg-stone-200 text-stone-900 rounded-md shadow"
     >
-      <h2 className="text-xl mb-7 text-center">{title}</h2>
+      <h2 className="text-3xl mb-16 text-center">{title}</h2>
       {children}
     </form>
   )

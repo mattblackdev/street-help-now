@@ -1,71 +1,83 @@
 import emojiRegex from 'emoji-regex'
-import { Mongo } from 'meteor/mongo'
-import { object, string } from 'yup'
-import { SlugPattern, Title16Pattern } from '../main/constants'
-import { validatedMethod } from '../utilities/validatedMethod'
+import { SlugPattern, Title16Pattern } from '/imports/main/constants'
+import { ResourceType, ResourceTypes } from '/imports/resources/collection'
+import { validatedMethod } from '/imports/utilities/validatedMethod'
+import { yobject, yupray, yusring } from '/imports/utilities/yup'
 
 export enum Subs {
   resourceTypes = 'resourceTypes',
   resources = 'resources',
 }
-export interface ResourceType {
-  _id: string
-  url?: string
-  slug: string
-  emoji: string
-  title: string
-  createdAt: Date
-  components?: ResourceTypeComponent[]
-}
 
-export interface ResourceTypeComponent {
-  name: string
-  [meta: string]: unknown
-}
+export type ResourceTypeUpdate = Omit<ResourceType, 'createdAt'>
 
-export const ResourceTypes = new Mongo.Collection<ResourceType>('resourceTypes')
-
-export type ResourceTypeUpdate = {
-  _id: string
-  title: string
-  emoji: string
-  slug: string
-  url?: string
-}
 export const resourceTypeUpdate = validatedMethod<ResourceTypeUpdate>({
   name: 'resourceTypes.update',
-  schema: object({
-    _id: string().required(),
-    title: string()
-      .label('Title')
-      .required()
-      .matches(Title16Pattern, 'Must be 2-16 alphanumeric characters'),
-    emoji: string()
-      .label('Emoji')
-      .required()
-      .matches(emojiRegex(), 'Must be an emoji ;-)'),
-    slug: string()
-      .label('Slug')
-      .required()
-      .matches(SlugPattern, 'must-be-like-this'),
-    url: string().label('External Url').ensure().url().trim(),
-  }).required(),
+  schema: yobject({})
+    .required()
+    .shape({
+      _id: yusring().required(),
+      title: yusring()
+        .label('Title')
+        .required()
+        .matches(Title16Pattern, 'Must be 2-16 alphanumeric characters'),
+      emoji: yusring()
+        .label('Emoji')
+        .required()
+        .matches(emojiRegex(), 'Must be an emoji ;-)'),
+      slug: yusring()
+        .label('Slug')
+        .required()
+        .matches(SlugPattern, 'must-be-like-this'),
+      url: yusring().label('External Url').ensure().url().trim(),
+      components: yupray()
+        .label('Components')
+        .notRequired()
+        .of(
+          yobject({})
+            .required()
+            .shape({
+              key: yusring().label('Key').required(),
+              label: yusring().label('Label').required(),
+              fields: yupray()
+                .label('Fields')
+                .required()
+                .of(
+                  yobject({})
+                    .required()
+                    .shape({
+                      key: yusring().label('Key').required(),
+                      label: yusring().label('Label').required(),
+                      type: yusring()
+                        .label('Type')
+                        .required()
+                        .matches(
+                          /^boolean|number|string$/,
+                          'Must be "boolean", "number", or "string"'
+                        ),
+                      matches: yusring()
+                        .label('Matches')
+                        .notRequired()
+                        .test(
+                          'RegExp',
+                          'Must use javascript RegExp syntax',
+                          (v) => {
+                            if (!v) return true
+                            try {
+                              new RegExp(v)
+                              return true
+                            } catch {
+                              return false
+                            }
+                          }
+                        ),
+                    })
+                ),
+            })
+        ),
+    }),
   roles: ['admin'],
-  fun({ _id, title, emoji, slug, url }) {
-    return ResourceTypes.update(_id, { $set: { title, emoji, slug, url } })
+  fun({ _id, ...rest }) {
+    return ResourceTypes.update(_id, { $set: rest })
   },
 })
-
-export interface Resource {
-  _id: string
-  resourceTypeId: string
-  createdAt: Date
-  createdBy: string
-  [meta: string]: unknown
-  // title: string
-  // description: string
-  // location?: { latitude?: number; longitude?: number; address: string }
-  // availability?: Availability
-}
-
-export const Resources = new Mongo.Collection<Resource>('resources')

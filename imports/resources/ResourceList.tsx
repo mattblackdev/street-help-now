@@ -1,7 +1,8 @@
 import { useFind } from 'meteor/react-meteor-data'
 import React from 'react'
 import Table, { Icolumn, ItableStyle } from 'react-tailwind-table'
-import { Resources, ResourceType, Subs } from './api'
+import { Subs } from './api'
+import { Resources, ResourceType } from './collection'
 import useSubscription from '/imports/utilities/useSubscription'
 
 type ResourceListProps = { resourceType: ResourceType }
@@ -13,7 +14,13 @@ export function ResourceList({ resourceType }: ResourceListProps) {
   )
 
   const columns = (resourceType.components ?? [])
-    .map<Icolumn>(({ name }) => ({ field: name, use: name.toUpperCase() }))
+    .flatMap((c) =>
+      c.fields.map((f) => ({
+        ...f,
+        path: `components.${c.key}.${f.key}`,
+      }))
+    )
+    .map<Icolumn>(({ path, label }) => ({ field: path, use: label }))
     .concat({ field: '_id', use_in_display: false })
 
   return (

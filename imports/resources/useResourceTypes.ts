@@ -1,6 +1,6 @@
 import { useFind } from 'meteor/react-meteor-data'
 import useSubscription from '/imports/utilities/useSubscription'
-import { ResourceTypes } from './api'
+import { ResourceTypes } from './collection'
 
 export function useResourceTypes() {
   useSubscription('resourceTypes')
