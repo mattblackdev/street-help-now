@@ -6,6 +6,7 @@ import {
   UseFormReturn,
 } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
+import { Accordion, Panel } from '../components/Accordion'
 import { Form, SmallFormContainer } from '../components/Form'
 import { Input } from '../components/Input'
 import { RemoveButton } from '../components/RemoveButton'
@@ -92,29 +93,33 @@ function ComponentsInput({ makeInputProps, form }: ComponentsInputProps) {
 
   return (
     <>
-      <h2 className="text-2xl mt-7">Components</h2>
-      {fields.map((field, index) => {
-        const getKey = (key: string) => `components.${index}.${key}`
+      <h2 className="text-2xl mt-7 mb-4">Components</h2>
+      <Accordion>
+        {fields.map((field, index) => {
+          const getKey = (key: string) => `components.${index}.${key}`
 
-        return (
-          <div key={field.id} className="my-4">
-            <div className="flex justify-between">
-              <div className="flex-1">
-                <Input {...makeInputProps(getKey('label'))} />
+          return (
+            <Panel key={field.id} panelKey={field.id} title={field.label}>
+              <div className="mb-11">
+                <div className="flex justify-between">
+                  <div className="flex-1">
+                    <Input {...makeInputProps(getKey('label'))} />
+                  </div>
+                  <div className="flex items-center pb-7 px-4">
+                    <RemoveButton remove={remove} index={index} />
+                  </div>
+                </div>
+                <Input {...makeInputProps(getKey('key'))} />
+                <ComponentFieldsInput
+                  makeInputProps={makeInputProps}
+                  componentIndex={index}
+                  form={form}
+                />
               </div>
-              <div className="flex items-center pb-7 px-4">
-                <RemoveButton remove={remove} index={index} />
-              </div>
-            </div>
-            <Input {...makeInputProps(getKey('key'))} />
-            <ComponentFieldsInput
-              makeInputProps={makeInputProps}
-              componentIndex={index}
-              form={form}
-            />
-          </div>
-        )
-      })}
+            </Panel>
+          )
+        })}
+      </Accordion>
       <div className="my-4">
         <button
           className="bg-stone-800 text-stone-100 border-2 px-2 rounded-md"
@@ -149,7 +154,10 @@ function ComponentFieldsInput({
           `components.${componentIndex}.fields.${index}.${key}`
 
         return (
-          <div key={field.id} className="border-2 p-2 rounded pr-4">
+          <div
+            key={field.id}
+            className="border-2 border-stone-400 p-2 rounded pr-4"
+          >
             <div className="flex justify-between">
               <div className="flex-1">
                 <Input {...makeInputProps(getKey('label'))} />
