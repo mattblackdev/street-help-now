@@ -3,6 +3,7 @@ import React, {
   ReactNode,
   useCallback,
   useContext,
+  useEffect,
   useState,
 } from 'react'
 import { ctl } from '../utilities/ctl'
@@ -14,9 +15,11 @@ const AccordionContext = createContext<[string, (key: string) => void]>([
 
 type AccordionProps = {
   children: ReactNode
+  openPanelKey?: string
 }
-export function Accordion({ children }: AccordionProps) {
-  const [openPanelKey, setOpenPanel] = useState('')
+
+export function Accordion({ children, openPanelKey }: AccordionProps) {
+  const [_openPanelKey, setOpenPanel] = useState('')
   const togglePanel = useCallback(
     (key: string) =>
       setOpenPanel((curKey) => {
@@ -29,8 +32,14 @@ export function Accordion({ children }: AccordionProps) {
     [setOpenPanel]
   )
 
+  useEffect(() => {
+    if (openPanelKey !== undefined) {
+      setOpenPanel(openPanelKey)
+    }
+  }, [openPanelKey])
+
   return (
-    <AccordionContext.Provider value={[openPanelKey, togglePanel]}>
+    <AccordionContext.Provider value={[_openPanelKey, togglePanel]}>
       {children}
     </AccordionContext.Provider>
   )
@@ -40,10 +49,11 @@ type PanelProps = {
   panelKey: string
   title: string
   children: ReactNode
+  open?: boolean
 }
-export function Panel({ panelKey, title, children }: PanelProps) {
+export function Panel({ panelKey, title, children, open }: PanelProps) {
   const [openPanelKey, togglePanel] = useContext(AccordionContext)
-  const isOpen = openPanelKey === panelKey
+  const isOpen = open || openPanelKey === panelKey
 
   return (
     <>

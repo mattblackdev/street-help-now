@@ -7,9 +7,9 @@ import {
 } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { Accordion, Panel } from '../components/Accordion'
+import { ActionButton } from '../components/ActionButton'
 import { Form, SmallFormContainer } from '../components/Form'
 import { Input } from '../components/Input'
-import { RemoveButton } from '../components/RemoveButton'
 import { Submit } from '../components/Submit'
 import { UnderConstruction } from '../components/UnderConstruction'
 import { ValiantError } from '../utilities/validatedMethod'
@@ -86,7 +86,7 @@ type ComponentsInputProps = {
 }
 
 function ComponentsInput({ makeInputProps, form }: ComponentsInputProps) {
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove, move } = useFieldArray({
     name: 'components',
     control: form.control,
   })
@@ -99,14 +99,40 @@ function ComponentsInput({ makeInputProps, form }: ComponentsInputProps) {
           const getKey = (key: string) => `components.${index}.${key}`
 
           return (
-            <Panel key={field.id} panelKey={field.id} title={field.label}>
-              <div className="mb-11">
+            <Panel
+              key={field.id}
+              panelKey={field.id}
+              title={field.label || '--'}
+              open={!field.label}
+            >
+              <div className="mb-10">
                 <div className="flex justify-between">
                   <div className="flex-1">
                     <Input {...makeInputProps(getKey('label'))} />
                   </div>
                   <div className="flex items-center pb-7 px-4">
-                    <RemoveButton remove={remove} index={index} />
+                    {index > 0 ? (
+                      <ActionButton onClick={() => move(index, index - 1)}>
+                        ^
+                      </ActionButton>
+                    ) : null}
+                    {fields.length > 1 && index < fields.length - 1 ? (
+                      <ActionButton onClick={() => move(index, index + 1)}>
+                        ⌄
+                      </ActionButton>
+                    ) : null}
+                    <ActionButton
+                      onClick={() => {
+                        if (
+                          !field.label ||
+                          window.confirm(`Delete "${field.label}" component?`)
+                        ) {
+                          remove(index)
+                        }
+                      }}
+                    >
+                      x
+                    </ActionButton>
                   </div>
                 </div>
                 <Input {...makeInputProps(getKey('key'))} />
@@ -141,7 +167,7 @@ function ComponentFieldsInput({
   componentIndex,
   form,
 }: ComponentFieldsInputProps) {
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove, move } = useFieldArray({
     name: `components.${componentIndex}.fields`,
     control: form.control,
   })
@@ -156,14 +182,35 @@ function ComponentFieldsInput({
         return (
           <div
             key={field.id}
-            className="border-2 border-stone-400 p-2 rounded pr-4"
+            className="border-2 border-stone-400 p-2 rounded pr-4 mb-4"
           >
             <div className="flex justify-between">
               <div className="flex-1">
                 <Input {...makeInputProps(getKey('label'))} />
               </div>
               <div className="flex items-center pb-7 pl-4">
-                <RemoveButton remove={remove} index={index} />
+                {index > 0 ? (
+                  <ActionButton onClick={() => move(index, index - 1)}>
+                    ^
+                  </ActionButton>
+                ) : null}
+                {fields.length > 1 && index < fields.length - 1 ? (
+                  <ActionButton onClick={() => move(index, index + 1)}>
+                    ⌄
+                  </ActionButton>
+                ) : null}
+                <ActionButton
+                  onClick={() => {
+                    if (
+                      !field.label ||
+                      window.confirm(`Delete "${field.label}" field?`)
+                    ) {
+                      remove(index)
+                    }
+                  }}
+                >
+                  x
+                </ActionButton>
               </div>
             </div>
             <Input {...makeInputProps(getKey('key'))} />
@@ -172,7 +219,7 @@ function ComponentFieldsInput({
           </div>
         )
       })}
-      <div className="my-4">
+      <div>
         <button
           className="bg-stone-800 text-stone-100 border-2 px-2 rounded-md"
           onClick={() => append({ key: '', label: '', type: 'string' })}
