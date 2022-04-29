@@ -41,11 +41,29 @@ module.exports = {
       },
       animation: {
         slideOut: 'slideOut .444s',
+        wiggle: 'wiggle 7.4s infinite',
       },
       keyframes: {
         slideOut: {
           '10%': { transform: 'translateX(7%)' },
           '100%': { transform: 'translateX(-101%)' },
+        },
+        wiggle: {
+          '1%, 9%': {
+            transform: 'translate3d(-1px, 0, 0)',
+          },
+
+          '2%, 8%': {
+            transform: 'translate3d(1px, 0, 0)',
+          },
+
+          '3%, 5%, 7%': {
+            transform: 'translate3d(0, -1px, 0)',
+          },
+
+          '4%, 6%': {
+            transform: 'translate3d(0, 1px, 0)',
+          },
         },
       },
     },

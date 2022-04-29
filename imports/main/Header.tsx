@@ -1,24 +1,33 @@
 import React, { Suspense } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { ctl } from '../utilities/ctl'
 import { useUsername } from '/imports/users/useUser'
 
 export function Header() {
   return (
-    <header className="w-full p-7 md:px-10 lg:mb-7 grid grid-cols-3 items-center">
-      <div className="justify-self-start">
-        <Suspense fallback={null}>
-          <Signup />
-        </Suspense>
-      </div>
-      <h1 className="justify-self-center pl-2">
+    <header className="px-7 pt-7 mb-7 flex flex-wrap">
+      <h1
+        className={ctl(`
+          flex
+          flex-1
+          text-2xl xs:4xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl
+          font-extrabold 
+          [text-shadow:0_7px_4px_rgba(1,0,1,0.74)]
+          tracking-wider
+          transition-all
+        `)}
+      >
         <Link
           to="/"
-          className="whitespace-nowrap transition-all text-2xl xs:3xl sm:text-4xl md:text-7xl lg:text-8xl xl:text-9xl font-extrabold text-center [text-shadow:0_4px_7px_rgba(1,0,1,0.44)] hover:underline"
+          className={ctl(`
+            whitespace-nowrap
+            hover:underline
+          `)}
         >
           Street Help Now
         </Link>
       </h1>
-      <div className="justify-self-end pr-1">
+      <div className="flex">
         <Suspense fallback={null}>
           <UsernameOrLogin />
         </Suspense>
@@ -41,27 +50,26 @@ function UsernameOrLogin() {
     )
   } else if (showProfile) {
     return (
-      <Link to="/profile" className="text-xs hover:underline">
+      <Link
+        to="/profile"
+        className={ctl(`
+          self-center
+          text-right
+          flex-1
+          md:ml-7
+          text-xl xs:text-2xl sm:text-3xl
+          transition-all 
+          text-stone-700 hover:text-stone-400
+          active:text-stone-100
+          font-bold
+          cursor-pointer
+          hover:underline
+          whitespace-nowrap
+        `)}
+      >
         {username}
       </Link>
     )
   }
-  return null
-}
-
-function Signup() {
-  const { pathname } = useLocation()
-  const username = useUsername()
-  const showSignUp =
-    !username && pathname !== '/signup' && pathname !== '/login'
-
-  if (showSignUp) {
-    return (
-      <Link to="/signup" className="hover:underline">
-        Sign Up
-      </Link>
-    )
-  }
-
   return null
 }
