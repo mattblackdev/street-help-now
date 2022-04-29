@@ -8,7 +8,13 @@ type TextInputProps = InputHTMLAttributes<HTMLInputElement> & {
 }
 
 export const Input = forwardRef<HTMLInputElement, TextInputProps>(
-  ({ error, helpText, hidden, ...props }, ref) => {
+  (_props, ref) => {
+    if (_props.type === 'checkbox') {
+      return <Checkbox {..._props} ref={ref} />
+    }
+
+    const { error, helpText, hidden, ...props } = _props
+
     return (
       <div className={ctl(`mt-7 ${hidden ? 'hidden' : 'relative'}`)}>
         <input
@@ -55,6 +61,57 @@ export const Input = forwardRef<HTMLInputElement, TextInputProps>(
               error ? 'text-brightblood' : 'text-stone-400'
             } focus:text-sapphire
             h-4`
+          )}
+        >
+          {helpText}
+        </p>
+      </div>
+    )
+  }
+)
+
+export const Checkbox = forwardRef<HTMLInputElement, TextInputProps>(
+  ({ error, helpText, hidden, ...props }, ref) => {
+    return (
+      <div className={ctl(`mt-7 ${hidden ? 'hidden' : 'relative'}`)}>
+        <label
+          htmlFor={props.name}
+          className={ctl(`
+          text-stone-400 
+          cursor-pointer
+          transition-all 
+          w-full 
+          flex 
+          justify-between
+          items-center
+          focus-within:text-sapphire
+        `)}
+        >
+          {props.required ? `${props.placeholder} *` : props.placeholder}
+          <input
+            className={ctl(`
+            w-11 
+            h-11
+            leading-8
+            bg-transparent
+            border-b-2
+            ${error ? 'border-brightblood' : 'border-stone-400'}
+            text-stone-900
+            placeholder-transparent
+            focus:border-sapphire
+        `)}
+            id={props.name}
+            type="checkbox"
+            {...props}
+            ref={ref}
+          />
+        </label>
+        <p
+          className={ctl(
+            `text-xs ${
+              error ? 'text-brightblood' : 'text-stone-400'
+            } focus:text-sapphire
+            h-4 mt-1`
           )}
         >
           {helpText}

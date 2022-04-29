@@ -2,7 +2,7 @@ import emojiRegex from 'emoji-regex'
 import { SlugPattern, Title16Pattern } from '/imports/main/constants'
 import { ResourceType, ResourceTypes } from '/imports/resources/collection'
 import { validatedMethod } from '/imports/utilities/validatedMethod'
-import { yobject, yupray, yusring } from '/imports/utilities/yup'
+import { yobject, yoblean, yupray, yusring } from '/imports/utilities/yup'
 
 export enum Subs {
   resourceTypes = 'resourceTypes',
@@ -30,6 +30,7 @@ export const resourceTypeUpdate = validatedMethod<ResourceTypeUpdate>({
         .required()
         .matches(SlugPattern, 'must-be-like-this'),
       url: yusring().label('External Url').ensure().url().trim(),
+      requestable: yoblean().label('Requestable'),
       components: yupray()
         .label('Components')
         .notRequired()

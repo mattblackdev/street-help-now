@@ -8,14 +8,23 @@ import {
 
 export { yupray, yoblean, yumber, yobject, yusring }
 
-export function getSpec(schema: any, key: string) {
+export function getFieldSchema(schema: any, key: string) {
+  if (!key) {
+    throw new Error(`Missing field key to get it's schema`)
+  }
+
   const fieldSchema = key.split('.').reduce((schema, keyPart) => {
     if (schema.innerType) {
       return schema.innerType
     }
     return schema.fields[keyPart]
   }, schema)
-  return fieldSchema.spec
+
+  if (!fieldSchema) {
+    throw new Error(`Schema does not exist for field "${key}"`)
+  }
+
+  return fieldSchema
 }
 
 export function squareToDotted(keyPath: string) {

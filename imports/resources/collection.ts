@@ -8,6 +8,7 @@ export interface ResourceType {
   title: string
   createdAt: Date
   components?: ResourceTypeComponent[]
+  requestable?: boolean
 }
 
 export interface ResourceTypeComponent {

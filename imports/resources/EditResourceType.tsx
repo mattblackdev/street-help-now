@@ -13,7 +13,7 @@ import { Input } from '../components/Input'
 import { Submit } from '../components/Submit'
 import { UnderConstruction } from '../components/UnderConstruction'
 import { ValiantError } from '../utilities/validatedMethod'
-import { getSpec } from '../utilities/yup'
+import { getFieldSchema } from '../utilities/yup'
 import { ResourceTypeUpdate, resourceTypeUpdate } from './api'
 import { ResourceType } from './collection'
 
@@ -53,11 +53,16 @@ export function EditResourceType({ resourceType }: ResourceTypeUpdateProps) {
 
   function makeInputProps(key: FieldPath<FormType>) {
     if (!key) throw Error('Missing key for makeInputProps')
-    const { presence, label } = getSpec(resourceTypeUpdate.schema, key)
+    const {
+      spec: { presence, label },
+      type,
+    } = getFieldSchema(resourceTypeUpdate.schema, key)
+
     const propsFromRegister = register(key)
 
     return {
       ...propsFromRegister,
+      type: type === 'boolean' ? 'checkbox' : undefined,
       required: presence === 'required',
       placeholder: label,
       error: !!errors[key],
@@ -72,6 +77,7 @@ export function EditResourceType({ resourceType }: ResourceTypeUpdateProps) {
         <Input {...makeInputProps('emoji')} />
         <Input {...makeInputProps('slug')} />
         <Input {...makeInputProps('url')} />
+        <Input {...makeInputProps('requestable')} />
         <ComponentsInput makeInputProps={makeInputProps} form={form} />
         <Submit text="Save" submitting={submitting} error={error} />
         <UnderConstruction />
