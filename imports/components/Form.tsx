@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 
 type FormProps = {
   onSubmit: () => void
   title: string
-  children: React.ReactNode
+  children: ReactNode
 }
 
 export function Form({ onSubmit, title, children }: FormProps) {
@@ -18,7 +18,7 @@ export function Form({ onSubmit, title, children }: FormProps) {
   )
 }
 
-export function SmallFormContainer({ children }: { children: JSX.Element }) {
+export function SmallFormContainer({ children }: { children: ReactNode }) {
   return (
     <div className="max-w-md lg:max-w-lg w-11/12 mx-auto pb-7">{children}</div>
   )

@@ -5,7 +5,7 @@ import { useUsername } from '/imports/users/useUser'
 
 export function Header() {
   return (
-    <header className="px-7 pt-7 mb-7 flex flex-wrap">
+    <header className="px-7 pt-7 pb-7 md:mb-16 flex flex-wrap">
       <h1
         className={ctl(`
           flex

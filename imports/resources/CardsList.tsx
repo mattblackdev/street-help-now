@@ -30,7 +30,7 @@ function Card({ resourceType, showEdit }: CardProps) {
   const LinkEl = isExternal ? ExternalLink : Link
   return (
     <li
-      className="relative max-w-md w-full flex flex-col justify-center items-center mx-auto"
+      className="relative max-w-md w-full flex justify-center items-center mx-auto"
       key={resourceType._id}
     >
       <LinkEl

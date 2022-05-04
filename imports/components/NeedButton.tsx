@@ -14,7 +14,7 @@ export function NeedButton() {
         show={pathname === '/'}
       >
         <Link
-          to="/need-something"
+          to="/need"
           className={ctl(`
             px-3 py-3 md:px-7 lg:px-10 
             rounded-3xl transition-all 

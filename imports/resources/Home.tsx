@@ -3,6 +3,8 @@ import { Route, Routes } from 'react-router-dom'
 import { NeedButton } from '../components/NeedButton'
 import { CardsList } from './CardsList'
 import { EditResourceType } from './EditResourceType'
+import { NeedSomething } from './NeedSomething'
+import { RequestResource } from './RequestResource'
 import { ResourceLayout } from './ResourceLayout'
 import { ResourceList } from './ResourceList'
 import { useResourceTypes } from './useResourceTypes'
@@ -41,6 +43,14 @@ export function Home() {
             </Route>
           )
         })}
+        <Route
+          path="need"
+          element={<NeedSomething resourceTypes={resourceTypes} />}
+        />
+        <Route
+          path="need/:slug"
+          element={<RequestResource resourceTypes={resourceTypes} />}
+        />
         <Route path="*" element={<div>Nothing here :(</div>} />
       </Routes>
       <NeedButton />
