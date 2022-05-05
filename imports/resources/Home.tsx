@@ -28,7 +28,7 @@ export function Home() {
             <Route
               key={resourceType._id}
               path={resourceType.slug}
-              element={<ResourceLayout resourceType={resourceType} />}
+              element={<ResourceLayout />}
             >
               <Route
                 index
