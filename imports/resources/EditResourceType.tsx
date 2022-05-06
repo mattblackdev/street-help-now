@@ -1,10 +1,5 @@
 import React, { useState } from 'react'
-import {
-  FieldPath,
-  useFieldArray,
-  useForm,
-  UseFormReturn,
-} from 'react-hook-form'
+import { useFieldArray, useForm, UseFormReturn } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { Accordion, Panel } from '../components/Accordion'
 import { ActionButton } from '../components/ActionButton'
@@ -12,8 +7,8 @@ import { Form, SmallFormContainer } from '../components/Form'
 import { Input } from '../components/Input'
 import { Submit } from '../components/Submit'
 import { UnderConstruction } from '../components/UnderConstruction'
-import { ValiantError } from '../utilities/validatedMethod'
-import { getFieldSchema } from '../utilities/yup'
+import { makeMakeInputProps } from '../utilities/makeInputProps'
+import { useFormErrors } from '../utilities/useFormErrors'
 import { ResourceTypeUpdate, resourceTypeUpdate } from './api'
 import { ResourceType } from './collection'
 
@@ -26,23 +21,23 @@ type FormType = Omit<ResourceTypeUpdate, '_id'>
 export function EditResourceType({ resourceType }: ResourceTypeUpdateProps) {
   const navigate = useNavigate()
   const [submitting, setSubmitting] = useState(false)
-  const [errors, setErrors] = useState<ValiantError>({})
-  const [error, setError] = useState('')
+  const { error, errors, handleError } = useFormErrors()
   const form = useForm<FormType>({
     defaultValues: { ...resourceType },
   })
   const { register, handleSubmit } = form
+  const makeInputProps = makeMakeInputProps(
+    resourceTypeUpdate.schema,
+    register,
+    errors
+  )
 
   const onSubmit = handleSubmit((formData) => {
     setSubmitting(true)
     resourceTypeUpdate({ _id: resourceType._id, ...formData }, (error) => {
       setSubmitting(false)
       if (error) {
-        if (error instanceof ValiantError) {
-          setErrors(error)
-        } else {
-          setError(error.message)
-        }
+        handleError(error)
       } else {
         navigate('/')
       }
@@ -50,25 +45,6 @@ export function EditResourceType({ resourceType }: ResourceTypeUpdateProps) {
   })
 
   const formTitle = `Edit ${resourceType.title}`
-
-  function makeInputProps(key: FieldPath<FormType>) {
-    if (!key) throw Error('Missing key for makeInputProps')
-    const {
-      spec: { presence, label },
-      type,
-    } = getFieldSchema(resourceTypeUpdate.schema, key)
-
-    const propsFromRegister = register(key)
-
-    return {
-      ...propsFromRegister,
-      type: type === 'boolean' ? 'checkbox' : undefined,
-      required: presence === 'required',
-      placeholder: label,
-      error: !!errors[key],
-      helpText: errors[key],
-    }
-  }
 
   return (
     <SmallFormContainer>

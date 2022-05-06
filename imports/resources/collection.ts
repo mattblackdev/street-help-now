@@ -31,7 +31,12 @@ export interface Resource {
   resourceTypeId: string
   createdAt: Date
   createdBy: string
-  components: Record<string, Record<string, boolean | number | string>>
+  components: ResourceComponents
 }
+
+export type ResourceComponents = Record<
+  string,
+  Record<string, boolean | number | string>
+>
 
 export const Resources = new Mongo.Collection<Resource>('resources')
