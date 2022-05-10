@@ -1,6 +1,6 @@
 import { FieldPath, UseFormRegister } from 'react-hook-form'
 import { AnyObjectSchema } from 'yup'
-import { ValiantError } from './validatedMethod'
+import { ValiantError } from './makeMethod'
 import { getFieldSchema } from './yup'
 
 const typeMap = {
@@ -8,6 +8,7 @@ const typeMap = {
   number: 'number',
   string: 'text',
 }
+
 export function makeInputProps<TFieldValues>(
   key: FieldPath<TFieldValues>,
   schema: AnyObjectSchema,

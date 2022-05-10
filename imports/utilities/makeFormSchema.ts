@@ -7,7 +7,7 @@ const schemaTypeMap = {
   boolean: yoblean,
 }
 
-export function makeFormSchema(components: ResourceTypeComponent[]) {
+export function makeFormSchema(components: ResourceTypeComponent[] = []) {
   let schema = yobject({})
 
   for (const component of components) {

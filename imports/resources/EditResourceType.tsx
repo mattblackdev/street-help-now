@@ -21,11 +21,12 @@ type FormType = Omit<ResourceTypeUpdate, '_id'>
 export function EditResourceType({ resourceType }: ResourceTypeUpdateProps) {
   const navigate = useNavigate()
   const [submitting, setSubmitting] = useState(false)
-  const { error, errors, handleError } = useFormErrors()
+  const { error, errors, handleError } = useFormErrors({ setSubmitting })
   const form = useForm<FormType>({
     defaultValues: { ...resourceType },
   })
   const { register, handleSubmit } = form
+
   const makeInputProps = makeMakeInputProps(
     resourceTypeUpdate.schema,
     register,
@@ -34,14 +35,10 @@ export function EditResourceType({ resourceType }: ResourceTypeUpdateProps) {
 
   const onSubmit = handleSubmit((formData) => {
     setSubmitting(true)
-    resourceTypeUpdate({ _id: resourceType._id, ...formData }, (error) => {
-      setSubmitting(false)
-      if (error) {
-        handleError(error)
-      } else {
-        navigate('/')
-      }
-    })
+    resourceTypeUpdate({ _id: resourceType._id, ...formData }).then(
+      () => navigate('/'),
+      handleError
+    )
   })
 
   const formTitle = `Edit ${resourceType.title}`

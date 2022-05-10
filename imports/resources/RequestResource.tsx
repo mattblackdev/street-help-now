@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Form, SmallFormContainer } from '../components/Form'
 import { Input } from '../components/Input'
 import { Submit } from '../components/Submit'
@@ -8,6 +8,7 @@ import { UnderConstruction } from '../components/UnderConstruction'
 import { makeFormSchema } from '../utilities/makeFormSchema'
 import { makeInputProps } from '../utilities/makeInputProps'
 import { useFormErrors } from '../utilities/useFormErrors'
+import { requestResource } from './api'
 import { ResourceType } from './collection'
 
 type RequestResourceProps = {
@@ -42,10 +43,12 @@ type RequestResourceFormProps = {
   resourceType: ResourceType
 }
 function RequestResourceForm({ resourceType }: RequestResourceFormProps) {
-  const { components = [] } = resourceType
+  const navigate = useNavigate()
   const [submitting, setSubmitting] = useState(false)
-  const { error, errors, handleError } = useFormErrors()
+  const { error, errors, handleError } = useFormErrors({ setSubmitting })
   const form = useForm()
+
+  const { components = [] } = resourceType
   const [schema, keys] = useMemo(
     () => [
       makeFormSchema(components),
@@ -58,18 +61,12 @@ function RequestResourceForm({ resourceType }: RequestResourceFormProps) {
     <Input key={key} {...makeInputProps(key, schema, form.register, errors)} />
   ))
 
-  const onSubmit = form.handleSubmit((formData) => {
+  const onSubmit = form.handleSubmit((components) => {
     setSubmitting(true)
-    setTimeout(() => {
-      setSubmitting(false)
-      window.alert(
-        `Still working on this part. Thanks for submitting: ${JSON.stringify(
-          formData,
-          null,
-          2
-        )}`
-      )
-    }, 444)
+    requestResource({ resourceTypeId: resourceType._id, components }).then(
+      () => navigate(`/${resourceType.slug}`),
+      handleError
+    )
   })
 
   return (

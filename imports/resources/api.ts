@@ -1,7 +1,17 @@
 import emojiRegex from 'emoji-regex'
-import { SlugPattern, Title16Pattern } from '/imports/main/constants'
-import { ResourceType, ResourceTypes } from '/imports/resources/collection'
-import { validatedMethod } from '/imports/utilities/validatedMethod'
+import { makeFormSchema } from '../utilities/makeFormSchema'
+import {
+  KeyPattern,
+  SlugPattern,
+  Title16Pattern,
+} from '/imports/main/constants'
+import {
+  ResourceComponents,
+  Resources,
+  ResourceType,
+  ResourceTypes,
+} from '/imports/resources/collection'
+import { makeMethod, validate } from '../utilities/makeMethod'
 import { yobject, yoblean, yupray, yusring } from '/imports/utilities/yup'
 
 export enum Subs {
@@ -11,8 +21,12 @@ export enum Subs {
 
 export type ResourceTypeUpdate = Omit<ResourceType, 'createdAt'>
 
-export const resourceTypeUpdate = validatedMethod<ResourceTypeUpdate>({
+export const resourceTypeUpdate = makeMethod<ResourceTypeUpdate, number>({
   name: 'resourceTypes.update',
+  run({ _id, ...rest }) {
+    return ResourceTypes.update(_id, { $set: rest })
+  },
+  roles: ['admin'],
   schema: yobject({})
     .required()
     .shape({
@@ -38,8 +52,11 @@ export const resourceTypeUpdate = validatedMethod<ResourceTypeUpdate>({
           yobject({})
             .required()
             .shape({
-              key: yusring().label('Key').required(),
-              label: yusring().label('Label').required(),
+              key: yusring().label('Key').required().matches(KeyPattern),
+              label: yusring()
+                .label('Label')
+                .required()
+                .matches(Title16Pattern),
               fields: yupray()
                 .label('Fields')
                 .required()
@@ -47,8 +64,14 @@ export const resourceTypeUpdate = validatedMethod<ResourceTypeUpdate>({
                   yobject({})
                     .required()
                     .shape({
-                      key: yusring().label('Key').required(),
-                      label: yusring().label('Label').required(),
+                      key: yusring()
+                        .label('Key')
+                        .required()
+                        .matches(KeyPattern),
+                      label: yusring()
+                        .label('Label')
+                        .required()
+                        .matches(Title16Pattern),
                       type: yusring()
                         .label('Type')
                         .required()
@@ -77,8 +100,31 @@ export const resourceTypeUpdate = validatedMethod<ResourceTypeUpdate>({
             })
         ),
     }),
-  roles: ['admin'],
-  fun({ _id, ...rest }) {
-    return ResourceTypes.update(_id, { $set: rest })
+})
+
+export const requestResource = makeMethod<
+  { resourceTypeId: string; components: ResourceComponents },
+  string
+>({
+  name: 'resources.request',
+  run({ resourceTypeId, components = {} }, user) {
+    if (!user) throw new Error('Unauthorized')
+
+    const resourceType = ResourceTypes.findOne(resourceTypeId)
+    if (!resourceType || !resourceType.requestable) {
+      throw new Error(
+        `Resource type either doesn't exist or is not requestable`
+      )
+    }
+
+    const schema = makeFormSchema(resourceType.components)
+    components = validate(components, schema)
+
+    return Resources.insert({
+      resourceTypeId,
+      components,
+      createdAt: new Date(),
+      createdBy: user._id,
+    })
   },
 })
