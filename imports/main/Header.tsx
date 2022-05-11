@@ -5,7 +5,7 @@ import { useUsername } from '/imports/users/useUser'
 
 export function Header() {
   return (
-    <header className="px-7 pt-7 pb-7 md:mb-16 flex">
+    <header className="px-7 pt-7 pb-7 md:mb-4 flex">
       <h1
         className={ctl(`
           flex
@@ -46,7 +46,7 @@ function UsernameOrLogin() {
     flex-1
     text-xl xs:text-2xl sm:text-3xl
     transition-all 
-    text-stone-700 hover:text-stone-400
+    text-stone-400 hover:text-stone-200
     active:text-stone-100
     font-bold
     cursor-pointer

@@ -3,6 +3,7 @@ import React from 'react'
 import Table, { Icolumn, ItableStyle } from 'react-tailwind-table'
 import { Subs } from './api'
 import { Resources, ResourceType } from './collection'
+import { Map } from '/imports/components/Map'
 import useSubscription from '/imports/utilities/useSubscription'
 
 type ResourceListProps = { resourceType: ResourceType }
@@ -24,7 +25,10 @@ export function ResourceList({ resourceType }: ResourceListProps) {
     .concat({ field: '_id', use_in_display: false })
 
   return (
-    <div className="px-4">
+    <div className="pb-7 max-w-4xl mx-auto">
+      <div className="h-[74vh]">
+        <Map />
+      </div>
       <Table
         table_header={resourceType.title}
         rows={resources}
@@ -50,6 +54,10 @@ const tableStyles: ItableStyle = {
   },
   table_head: {
     table_row: 'bg-stone-300',
+  },
+  table_body: {
+    main: '',
+    table_row: 'bg-stone-100 hover:bg-stone-200',
   },
   footer: {
     statistics: { main: 'text-stone-600 hidden' },
