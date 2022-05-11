@@ -19,6 +19,7 @@ export const Input = forwardRef<HTMLInputElement, TextInputProps>(
       <div className={ctl(`mt-7 ${hidden ? 'hidden' : 'relative'}`)}>
         <input
           className={ctl(`
+            my-1
             leading-8
             peer
             text-xl
@@ -40,15 +41,15 @@ export const Input = forwardRef<HTMLInputElement, TextInputProps>(
           className={ctl(`
           absolute 
           left-0 
-          -top-5
+          -top-4
           text-stone-400 
           text-sm
           cursor-pointer
           transition-all 
           peer-placeholder-shown:text-base 
           peer-placeholder-shown:text-stone-400 
-          peer-placeholder-shown:-top-1
-          peer-focus:-top-5
+          peer-placeholder-shown:top-1
+          peer-focus:-top-4
           peer-focus:text-sapphire 
           peer-focus:text-sm
         `)}
@@ -56,12 +57,10 @@ export const Input = forwardRef<HTMLInputElement, TextInputProps>(
           {props.required ? `${props.placeholder} *` : props.placeholder}
         </label>
         <p
-          className={ctl(
-            `text-xs ${
-              error ? 'text-brightblood' : 'text-stone-400'
-            } focus:text-sapphire
-            h-4`
-          )}
+          className={ctl(`
+            text-xs focus:text-sapphire min-h-4 pb-1
+            ${error ? 'text-brightblood' : 'text-stone-400'} 
+          `)}
         >
           {helpText}
         </p>
@@ -107,12 +106,10 @@ export const Checkbox = forwardRef<HTMLInputElement, TextInputProps>(
           />
         </label>
         <p
-          className={ctl(
-            `text-xs ${
-              error ? 'text-brightblood' : 'text-stone-400'
-            } focus:text-sapphire
-            h-4 mt-1`
-          )}
+          className={ctl(`
+            text-xs focus:text-sapphire min-h-4 pb-1
+            ${error ? 'text-brightblood' : 'text-stone-400'} 
+          `)}
         >
           {helpText}
         </p>
