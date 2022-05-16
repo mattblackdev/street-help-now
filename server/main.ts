@@ -1,7 +1,6 @@
 require('dotenv').config({ path: `${process.env.PWD}/.env` })
 import { Accounts } from 'meteor/accounts-base'
 import { Meteor } from 'meteor/meteor'
-import { OneHundredPattern, Title16Pattern } from '/imports/main/constants'
 import {
   Resource,
   Resources,
@@ -11,6 +10,10 @@ import {
 import '/imports/resources/publish'
 import { Users } from '/imports/users/api'
 import '/imports/users/publish'
+import {
+  OneHundredPattern,
+  Title16Pattern,
+} from '/imports/utilities/regexPatterns'
 
 Resources.createIndex(
   { resourceTypeId: 1 },

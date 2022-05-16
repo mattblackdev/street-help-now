@@ -1,17 +1,17 @@
 import emojiRegex from 'emoji-regex'
-import { makeFormSchema } from '../utilities/makeFormSchema'
-import {
-  KeyPattern,
-  SlugPattern,
-  Title16Pattern,
-} from '/imports/main/constants'
 import {
   ResourceComponents,
   Resources,
   ResourceType,
   ResourceTypes,
 } from '/imports/resources/collection'
-import { makeMethod, validate } from '../utilities/makeMethod'
+import { makeFormSchema } from '/imports/utilities/makeFormSchema'
+import { makeMethod, validate } from '/imports/utilities/makeMethod'
+import {
+  KeyPattern,
+  SlugPattern,
+  Title16Pattern,
+} from '/imports/utilities/regexPatterns'
 import { yobject, yoblean, yupray, yusring } from '/imports/utilities/yup'
 
 export enum Subs {
@@ -75,10 +75,14 @@ export const resourceTypeUpdate = makeMethod<ResourceTypeUpdate, number>({
                       type: yusring()
                         .label('Type')
                         .required()
-                        .matches(
-                          /^boolean|number|string$/,
-                          'Must be "boolean", "number", or "string"'
-                        ),
+                        .oneOf(['boolean', 'number', 'string'])
+                        .meta({
+                          labels: {
+                            boolean: 'Boolean',
+                            number: 'Number',
+                            string: 'String',
+                          },
+                        }),
                       matches: yusring()
                         .label('Matches')
                         .notRequired()

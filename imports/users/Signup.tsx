@@ -3,9 +3,12 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { Form, SmallFormContainer } from '/imports/components/Form'
+import { Input } from '/imports/components/Input'
 import { Submit } from '/imports/components/Submit'
-import { Input } from '../components/Input'
-import { PasswordPattern, UsernamePattern } from '/imports/main/constants'
+import {
+  PasswordPattern,
+  UsernamePattern,
+} from '/imports/utilities/regexPatterns'
 
 export function Signup() {
   const [failed, setFailed] = useState(false)

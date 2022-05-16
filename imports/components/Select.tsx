@@ -1,15 +1,16 @@
 import React, { forwardRef, SelectHTMLAttributes } from 'react'
 import { ctl } from '/imports/utilities/ctl'
 
-type SelectProps = SelectHTMLAttributes<HTMLSelectElement> & {
+export type SelectProps = SelectHTMLAttributes<HTMLSelectElement> & {
   error?: boolean
   helpText?: string
   hidden?: boolean
   multiple?: boolean
+  options?: Array<{ label: string; value: string }>
 }
 
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(
-  ({ error, helpText, hidden, ...props }, ref) => {
+  ({ error, helpText, hidden, options = [], ...props }, ref) => {
     return (
       <div className={ctl(`mt-7 ${hidden ? 'hidden' : 'relative'} group`)}>
         <label
@@ -43,7 +44,11 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
           `)}
             {...props}
             ref={ref}
-          />
+          >
+            {options.map(({ value, label }) => (
+              <option value={value}>{label}</option>
+            ))}
+          </select>
         </div>
         <p
           className={ctl(`
