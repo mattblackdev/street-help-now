@@ -25,7 +25,8 @@
     "baseUrl": ".",
     "paths": {
       /* Support absolute /imports/* with a leading '/' */
-      "/imports/*": ["imports/*"]
+      "/imports/*": ["imports/*"],
+      "/server/*": ["server/*"]
     },
     "moduleResolution": "node",
     "resolveJsonModule": true,

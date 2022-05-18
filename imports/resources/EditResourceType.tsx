@@ -1,16 +1,19 @@
 import React, { useState } from 'react'
 import { useFieldArray, useForm, UseFormReturn } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import { Accordion, Panel } from '../components/Accordion'
-import { ActionButton } from '../components/ActionButton'
-import { Form, SmallFormContainer } from '../components/Form'
-import { Input } from '../components/Input'
-import { Submit } from '../components/Submit'
-import { UnderConstruction } from '../components/UnderConstruction'
-import { makeMakeInputProps } from '../utilities/makeInputProps'
-import { useFormErrors } from '../utilities/useFormErrors'
-import { ResourceTypeUpdate, resourceTypeUpdate } from './api'
-import { ResourceType } from './collection'
+import { Accordion, Panel } from '/imports/components/Accordion'
+import { ActionButton } from '/imports/components/ActionButton'
+import { Form, SmallFormContainer } from '/imports/components/Form'
+import { Input } from '/imports/components/Input'
+import { Submit } from '/imports/components/Submit'
+import { UnderConstruction } from '/imports/components/UnderConstruction'
+import { ResourceType } from '/imports/resources/api/collection'
+import {
+  ResourceTypeUpdate,
+  resourceTypeUpdate,
+} from '/imports/resources/api/resourceTypeUpdate'
+import { makeMakeInputProps } from '/imports/utilities/makeInputProps'
+import { useFormErrors } from '/imports/utilities/useFormErrors'
 
 type ResourceTypeUpdateProps = {
   resourceType: ResourceType

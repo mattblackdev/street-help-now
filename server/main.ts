@@ -6,8 +6,8 @@ import {
   Resources,
   ResourceType,
   ResourceTypes,
-} from '/imports/resources/collection'
-import '/imports/resources/publish'
+} from '/imports/resources/api/collection'
+import '/imports/resources/api/publish'
 import { Users } from '/imports/users/api'
 import '/imports/users/publish'
 import {

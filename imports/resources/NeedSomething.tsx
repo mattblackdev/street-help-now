@@ -1,8 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { SmallFormContainer } from '../components/Form'
-import { ctl } from '../utilities/ctl'
-import { ResourceType } from './collection'
+import { SmallFormContainer } from '/imports/components/Form'
+import { ResourceType } from '/imports/resources/api/collection'
+import { ctl } from '/imports/utilities/ctl'
 
 type NeedSomethingProps = {
   resourceTypes: ResourceType[]

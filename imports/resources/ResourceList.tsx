@@ -1,9 +1,9 @@
 import { useFind } from 'meteor/react-meteor-data'
 import React from 'react'
 import Table, { Icolumn, ItableStyle } from 'react-tailwind-table'
-import { Subs } from './api'
-import { Resources, ResourceType } from './collection'
 import { Map } from '/imports/components/Map'
+import { Resources, ResourceType } from '/imports/resources/api/collection'
+import { Subs } from '/imports/resources/api/subs'
 import useSubscription from '/imports/utilities/useSubscription'
 
 type ResourceListProps = { resourceType: ResourceType }

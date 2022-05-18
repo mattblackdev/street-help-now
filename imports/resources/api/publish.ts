@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor'
-import { Subs } from './api'
-import { Resources, ResourceTypes } from './collection'
+import { Resources, ResourceTypes } from '/imports/resources/api/collection'
+import { Subs } from '/imports/resources/api/subs'
 
 Meteor.publish(Subs.resourceTypes, function () {
   return ResourceTypes.find()

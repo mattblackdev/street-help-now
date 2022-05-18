@@ -1,23 +1,12 @@
 import emojiRegex from 'emoji-regex'
-import {
-  ResourceComponents,
-  Resources,
-  ResourceType,
-  ResourceTypes,
-} from '/imports/resources/collection'
-import { makeFormSchema } from '/imports/utilities/makeFormSchema'
-import { makeMethod, validate } from '/imports/utilities/makeMethod'
+import { ResourceType, ResourceTypes } from '/imports/resources/api/collection'
+import { makeMethod } from '/imports/utilities/makeMethod'
 import {
   KeyPattern,
   SlugPattern,
   Title16Pattern,
 } from '/imports/utilities/regexPatterns'
 import { yobject, yoblean, yupray, yusring } from '/imports/utilities/yup'
-
-export enum Subs {
-  resourceTypes = 'resourceTypes',
-  resources = 'resources',
-}
 
 export type ResourceTypeUpdate = Omit<ResourceType, 'createdAt'>
 
@@ -104,31 +93,4 @@ export const resourceTypeUpdate = makeMethod<ResourceTypeUpdate, number>({
             })
         ),
     }),
-})
-
-export const requestResource = makeMethod<
-  { resourceTypeId: string; components: ResourceComponents },
-  string
->({
-  name: 'resources.request',
-  run({ resourceTypeId, components = {} }, user) {
-    if (!user) throw new Error('Unauthorized')
-
-    const resourceType = ResourceTypes.findOne(resourceTypeId)
-    if (!resourceType || !resourceType.requestable) {
-      throw new Error(
-        `Resource type either doesn't exist or is not requestable`
-      )
-    }
-
-    const schema = makeFormSchema(resourceType.components)
-    components = validate(components, schema)
-
-    return Resources.insert({
-      resourceTypeId,
-      components,
-      createdAt: new Date(),
-      createdBy: user._id,
-    })
-  },
 })

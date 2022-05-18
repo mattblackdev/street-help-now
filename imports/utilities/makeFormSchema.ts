@@ -1,5 +1,5 @@
-import { ResourceTypeComponent } from '../resources/collection'
 import { yobject, yoblean, yumber, yusring } from './yup'
+import { ResourceTypeComponent } from '/imports/resources/api/collection'
 
 const schemaTypeMap = {
   string: yusring,
