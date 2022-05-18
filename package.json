@@ -24,7 +24,9 @@
     "dotenv": "^16.0.0",
     "emoji-regex": "^10.1.0",
     "leaflet": "^1.8.0",
+    "lodash-es": "^4.17.21",
     "meteor-node-stubs": "^1.2.1",
+    "node-geocoder": "^4.0.0",
     "postcss": "^8.4.12",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -38,8 +40,10 @@
   },
   "devDependencies": {
     "@types/leaflet": "^1.7.9",
+    "@types/lodash-es": "^4.17.6",
     "@types/meteor": "^1.4.81",
     "@types/mocha": "^8.2.3",
+    "@types/node-geocoder": "^3.24.4",
     "@types/react": "^17.0.30",
     "@types/react-dom": "^17.0.9",
     "typescript": "^4.5.4"

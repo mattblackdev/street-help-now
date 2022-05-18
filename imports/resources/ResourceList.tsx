@@ -1,8 +1,14 @@
+import { get, set } from 'lodash-es'
 import { useFind } from 'meteor/react-meteor-data'
 import React from 'react'
-import Table, { Icolumn, ItableStyle } from 'react-tailwind-table'
-import { Map } from '/imports/components/Map'
-import { Resources, ResourceType } from '/imports/resources/api/collection'
+import Table, { ItableStyle } from 'react-tailwind-table'
+import { Map, Markers } from '/imports/components/Map'
+import {
+  Resource,
+  Resources,
+  ResourceType,
+  ResourceTypeComponent,
+} from '/imports/resources/api/collection'
 import { Subs } from '/imports/resources/api/subs'
 import useSubscription from '/imports/utilities/useSubscription'
 
@@ -14,24 +20,18 @@ export function ResourceList({ resourceType }: ResourceListProps) {
     [resourceType._id]
   )
 
-  const columns = (resourceType.components ?? [])
-    .flatMap((c) =>
-      c.fields.map((f) => ({
-        ...f,
-        path: `components.${c.key}.${f.key}`,
-      }))
-    )
-    .map<Icolumn>(({ path, label }) => ({ field: path, use: label }))
-    .concat({ field: '_id', use_in_display: false })
+  const columns = makeTableColumns(resourceType.components)
+  const rows = makeTableRows(columns, resources)
+  const markers = makeMapMarkers(resources)
 
   return (
     <div className="pb-7 max-w-4xl mx-auto">
       <div className="h-[74vh]">
-        <Map />
+        <Map markers={markers} />
       </div>
       <Table
         table_header={resourceType.title}
-        rows={resources}
+        rows={rows}
         columns={columns}
         should_export={false}
         bordered
@@ -39,6 +39,47 @@ export function ResourceList({ resourceType }: ResourceListProps) {
       />
     </div>
   )
+}
+
+function makeTableColumns(components: ResourceTypeComponent[] = []) {
+  const columns = []
+  for (const c of components) {
+    for (const f of c.fields) {
+      columns.push({ field: `components.${c.key}.${f.key}`, use: f.label })
+    }
+  }
+  return columns
+}
+
+function makeTableRows(
+  columns: Array<{ field: string }>,
+  resources: Resource[]
+) {
+  const rows = []
+  for (const resource of resources) {
+    const row = { ...resource }
+    for (const column of columns) {
+      if (!get(row, column.field)) {
+        set(row, column.field, '--')
+      }
+    }
+    rows.push(row)
+  }
+  return rows
+}
+
+function makeMapMarkers(resources: Resource[]) {
+  const markers: Markers = []
+  for (const resource of resources) {
+    const lat = get(resource, 'components.location.lat')
+    const lng = get(resource, 'components.location.lng')
+    if (lat !== undefined && lng !== undefined) {
+      const tooltip = get(resource, 'components.title.title', 'Unknown')
+      const key = resource._id
+      markers.push({ coords: { lat, lng }, tooltip, key })
+    }
+  }
+  return markers
 }
 
 const tableStyles: ItableStyle = {

@@ -31,7 +31,14 @@ function LocationMarker() {
   )
 }
 
-export function Map() {
+export type Markers = Array<{
+  key: string
+  coords: { lat: number; lng: number }
+  tooltip: string
+}>
+export type MapProps = { markers?: Markers }
+
+export function Map({ markers = [] }: MapProps) {
   return (
     <MapContainer
       center={coords}
@@ -43,11 +50,13 @@ export function Map() {
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <Marker position={coords}>
-        <Popup>
-          An informational popup. <br /> Easily customizable.
-        </Popup>
-      </Marker>
+      {markers.map(({ coords, tooltip, key }) => {
+        return (
+          <Marker key={key} position={coords}>
+            <Popup>{tooltip}</Popup>
+          </Marker>
+        )
+      })}
       <LocationMarker />
     </MapContainer>
   )

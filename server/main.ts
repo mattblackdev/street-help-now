@@ -8,6 +8,8 @@ import {
   ResourceTypes,
 } from '/imports/resources/api/collection'
 import '/imports/resources/api/publish'
+import '/imports/resources/api/requestResource'
+import '/imports/resources/api/resourceTypeUpdate'
 import { Users } from '/imports/users/api'
 import '/imports/users/publish'
 import {

@@ -48,7 +48,7 @@ export function makeMethod<Args extends EJSONable, Result>({
   }
 
   Meteor.methods({
-    [name]: function (args: Args) {
+    [name]: async function (args: Args) {
       if (options.validate && options.schema) {
         args = validate<Args>(args, options.schema)
       }
@@ -64,7 +64,7 @@ export function makeMethod<Args extends EJSONable, Result>({
         )
       }
 
-      return run(args, user)
+      return await run(args, user)
     },
   })
 
