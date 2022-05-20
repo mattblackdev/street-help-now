@@ -25,8 +25,8 @@ export function ResourceList({ resourceType }: ResourceListProps) {
   const markers = makeMapMarkers(resources)
 
   return (
-    <div className="pb-7 max-w-4xl mx-auto">
-      <div className="h-[74vh]">
+    <div className="p-1 sm:p-2 pb-7 max-w-4xl xl:max-w-7xl mx-auto bg-stone-100 rounded shadow shadow-crimson">
+      <div className="h-[74vh] pb-1 sm:pb-2 rounded">
         <Map markers={markers} />
       </div>
       <Table
@@ -36,6 +36,7 @@ export function ResourceList({ resourceType }: ResourceListProps) {
         should_export={false}
         bordered
         styling={tableStyles}
+        show_search={false}
       />
     </div>
   )
@@ -83,18 +84,16 @@ function makeMapMarkers(resources: Resource[]) {
 }
 
 const tableStyles: ItableStyle = {
-  base_bg_color: 'bg-stone-300',
-  main: 'bg-stone-200',
+  base_bg_color: 'bg-stone-200',
+  main: 'bg-stone-100',
   top: {
     title: 'hidden',
     elements: {
-      export: 'text-blood',
-      search: 'mt-0 flex-1',
-      main: 'mt-0 md:mt-2',
+      main: 'hidden',
     },
   },
   table_head: {
-    table_row: 'bg-stone-300',
+    table_row: 'bg-stone-100',
   },
   table_body: {
     main: '',
