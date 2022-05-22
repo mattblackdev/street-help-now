@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Form, SmallFormContainer } from '/imports/components/Form'
@@ -9,7 +9,7 @@ import { ResourceType } from '/imports/resources/api/collection'
 import { requestResource } from '/imports/resources/api/requestResource'
 import { makeFormSchema } from '/imports/utilities/makeFormSchema'
 import { makeInputProps } from '/imports/utilities/makeInputProps'
-import { useFormErrors } from '/imports/utilities/useFormErrors'
+import { useFormState } from '/imports/utilities/useFormState'
 
 type RequestResourceProps = {
   resourceTypes: ResourceType[]
@@ -44,8 +44,9 @@ type RequestResourceFormProps = {
 }
 function RequestResourceForm({ resourceType }: RequestResourceFormProps) {
   const navigate = useNavigate()
-  const [submitting, setSubmitting] = useState(false)
-  const { error, errors, handleError } = useFormErrors({ setSubmitting })
+  const { error, errors, submitting, setSubmitting, handleError } =
+    useFormState()
+
   const form = useForm()
 
   const { components = [] } = resourceType

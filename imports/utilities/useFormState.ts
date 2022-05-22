@@ -1,11 +1,8 @@
 import { useState } from 'react'
 import { ValiantError } from './makeMethod'
 
-type Options = {
-  setSubmitting?(submitting: boolean): void
-}
-
-export function useFormErrors({ setSubmitting }: Options = {}) {
+export function useFormState() {
+  const [submitting, setSubmitting] = useState(false)
   const [errors, setErrors] = useState<ValiantError>({})
   const [error, setError] = useState('')
 
@@ -15,12 +12,14 @@ export function useFormErrors({ setSubmitting }: Options = {}) {
     } else {
       setError(error.message)
     }
-    setSubmitting && setSubmitting(false)
+    setSubmitting(false)
   }
 
   return {
     errors,
     error,
+    submitting,
     handleError,
+    setSubmitting,
   }
 }

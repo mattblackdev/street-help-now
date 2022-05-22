@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useFieldArray, useForm, UseFormReturn } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { Accordion, Panel } from '/imports/components/Accordion'
@@ -13,7 +13,7 @@ import {
   resourceTypeUpdate,
 } from '/imports/resources/api/resourceTypeUpdate'
 import { makeMakeInputProps } from '/imports/utilities/makeInputProps'
-import { useFormErrors } from '/imports/utilities/useFormErrors'
+import { useFormState } from '/imports/utilities/useFormState'
 
 type ResourceTypeUpdateProps = {
   resourceType: ResourceType
@@ -23,8 +23,8 @@ type FormType = Omit<ResourceTypeUpdate, '_id'>
 
 export function EditResourceType({ resourceType }: ResourceTypeUpdateProps) {
   const navigate = useNavigate()
-  const [submitting, setSubmitting] = useState(false)
-  const { error, errors, handleError } = useFormErrors({ setSubmitting })
+  const { error, errors, submitting, setSubmitting, handleError } =
+    useFormState()
   const form = useForm<FormType>({
     defaultValues: { ...resourceType },
   })
