@@ -1,20 +1,21 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import { Form, SmallFormContainer } from '../components/Form'
-import { Input } from '../components/Input'
-import { Submit } from '../components/Submit'
-import { makeMakeInputProps } from '../utilities/makeInputProps'
-import { useFormState } from '../utilities/useFormState'
-import { InviteUser, inviteUser } from './api/inviteUser'
+import { Form } from '/imports/components/Form'
+import { Belt } from '/imports/components/Belt'
+import { Input } from '/imports/components/Input'
+import { Submit } from '/imports/components/Submit'
+import { makeMakeInputProps } from '/imports/utilities/makeInputProps'
+import { useFormState } from '/imports/utilities/useFormState'
+import { InviteUser, inviteUser } from '/imports/users/api/inviteUser'
 
 export function InviteUserForm() {
   const { error, errors, submitting, setSubmitting, handleError } =
     useFormState()
   const { register, handleSubmit } = useForm<InviteUser>()
 
-  const onSubmit = handleSubmit(({ emailAddress }) => {
+  const onSubmit = handleSubmit(({ email }) => {
     setSubmitting(true)
-    inviteUser({ emailAddress }).then((userInviteId) => {
+    inviteUser({ email }).then((userInviteId) => {
       setSubmitting(false)
       console.log('Created', userInviteId)
     }, handleError)
@@ -23,16 +24,9 @@ export function InviteUserForm() {
   const makeInputProps = makeMakeInputProps(inviteUser.schema, register, errors)
 
   return (
-    <SmallFormContainer>
-      <Form title="Invite a Friend" onSubmit={onSubmit}>
-        <Input {...makeInputProps('emailAddress')} />
-        <Submit
-          text="Send Invite"
-          accent
-          submitting={submitting}
-          error={error}
-        />
-      </Form>
-    </SmallFormContainer>
+    <Form title="Invite a Friend" onSubmit={onSubmit}>
+      <Input {...makeInputProps('email')} />
+      <Submit text="Send Invite" accent submitting={submitting} error={error} />
+    </Form>
   )
 }

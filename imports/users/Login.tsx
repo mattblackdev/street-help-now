@@ -2,7 +2,8 @@ import { Meteor } from 'meteor/meteor'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import { Form, SmallFormContainer } from '/imports/components/Form'
+import { Belt } from '/imports/components/Belt'
+import { Form } from '/imports/components/Form'
 import { Input } from '/imports/components/Input'
 import { Submit } from '/imports/components/Submit'
 
@@ -29,7 +30,7 @@ export function Login() {
   })
 
   return (
-    <SmallFormContainer>
+    <Belt>
       <Form onSubmit={onSubmit} title="Welcome Back :)">
         <Input
           {...register('username', { required: true })}
@@ -50,6 +51,6 @@ export function Login() {
           error={failed ? 'There was a problem signing in.' : undefined}
         />
       </Form>
-    </SmallFormContainer>
+    </Belt>
   )
 }

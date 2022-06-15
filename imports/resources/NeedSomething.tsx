@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { SmallFormContainer } from '/imports/components/Form'
+import { Belt } from '/imports/components/Belt'
 import { ResourceType } from '/imports/resources/api/collection'
 import { ctl } from '/imports/utilities/ctl'
 
@@ -11,7 +11,7 @@ type NeedSomethingProps = {
 export function NeedSomething({ resourceTypes }: NeedSomethingProps) {
   const requestableResources = resourceTypes.filter((rt) => rt.requestable)
   return (
-    <SmallFormContainer>
+    <Belt>
       <div
         className={ctl(
           `relative p-7 pt-16 bg-stone-200 text-stone-900 rounded-md shadow`
@@ -45,6 +45,6 @@ export function NeedSomething({ resourceTypes }: NeedSomethingProps) {
           ))}
         </ul>
       </div>
-    </SmallFormContainer>
+    </Belt>
   )
 }

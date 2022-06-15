@@ -42,7 +42,7 @@ export function Map({ markers = [] }: MapProps) {
   return (
     <MapContainer
       center={coords}
-      zoom={13}
+      zoom={10}
       style={{ height: '100%' }}
       scrollWheelZoom={false}
     >

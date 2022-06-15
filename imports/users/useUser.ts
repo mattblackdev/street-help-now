@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import { useTracker } from 'meteor/react-meteor-data'
-import { Subs } from './api'
+import { Subs } from '/imports/users/api/subs'
 import useSubscription from '/imports/utilities/useSubscription'
 
 export function useIsAdmin() {
@@ -14,4 +14,8 @@ export function useIsAdmin() {
 export function useUsername() {
   useSubscription(Subs.currentUser)
   return useTracker(() => Meteor.user({ fields: { username: 1 } })?.username)
+}
+
+export function useUserId() {
+  return useTracker(() => Meteor.userId())
 }

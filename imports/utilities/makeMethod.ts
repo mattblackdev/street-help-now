@@ -2,8 +2,8 @@ import { EJSONable } from 'meteor/ejson'
 import { Meteor } from 'meteor/meteor'
 import { Mongo } from 'meteor/mongo'
 import { AnyObjectSchema, ValidationError as YupError } from 'yup'
-import { User, Users } from '../users/api'
-import { squareToDotted, yobject } from './yup'
+import { User, Users } from '/imports/users/api/collection'
+import { squareToDotted, yobject } from '/imports/utilities/yup'
 
 type MethodArgs<Args extends EJSONable, Result> = {
   name: string
@@ -48,7 +48,7 @@ export function makeMethod<Args extends EJSONable, Result>({
   }
 
   Meteor.methods({
-    [name]: async function (args: Args) {
+    [name]: function (args: Args) {
       if (options.validate && options.schema) {
         args = validate<Args>(args, options.schema)
       }
@@ -64,7 +64,7 @@ export function makeMethod<Args extends EJSONable, Result>({
         )
       }
 
-      return await run(args, user)
+      return run(args, user)
     },
   })
 

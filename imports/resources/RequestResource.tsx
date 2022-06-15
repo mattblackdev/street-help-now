@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { Form, SmallFormContainer } from '/imports/components/Form'
+import { Belt } from '/imports/components/Belt'
+import { Form } from '/imports/components/Form'
 import { Input } from '/imports/components/Input'
 import { Submit } from '/imports/components/Submit'
 import { UnderConstruction } from '/imports/components/UnderConstruction'
@@ -24,7 +25,7 @@ export function RequestResource({ resourceTypes }: RequestResourceProps) {
 
 function NotFound() {
   return (
-    <SmallFormContainer>
+    <Belt>
       <Form title="This resource type wasn't found." onSubmit={() => {}}>
         <div className="flex justify-center">
           <Link
@@ -35,7 +36,7 @@ function NotFound() {
           </Link>
         </div>
       </Form>
-    </SmallFormContainer>
+    </Belt>
   )
 }
 
@@ -71,12 +72,12 @@ function RequestResourceForm({ resourceType }: RequestResourceFormProps) {
   })
 
   return (
-    <SmallFormContainer>
+    <Belt>
       <Form title={`Request ${resourceType.title}`} onSubmit={onSubmit}>
         {inputs}
         <Submit text="Submit" error={error} submitting={submitting} />
         <UnderConstruction />
       </Form>
-    </SmallFormContainer>
+    </Belt>
   )
 }

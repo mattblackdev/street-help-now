@@ -3,7 +3,8 @@ import { useFieldArray, useForm, UseFormReturn } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { Accordion, Panel } from '/imports/components/Accordion'
 import { ActionButton } from '/imports/components/ActionButton'
-import { Form, SmallFormContainer } from '/imports/components/Form'
+import { Belt } from '/imports/components/Belt'
+import { Form } from '/imports/components/Form'
 import { Input } from '/imports/components/Input'
 import { Submit } from '/imports/components/Submit'
 import { UnderConstruction } from '/imports/components/UnderConstruction'
@@ -47,7 +48,7 @@ export function EditResourceType({ resourceType }: ResourceTypeUpdateProps) {
   const formTitle = `Edit ${resourceType.title}`
 
   return (
-    <SmallFormContainer>
+    <Belt>
       <Form onSubmit={onSubmit} title={formTitle}>
         <Input {...makeInputProps('title')} />
         <Input {...makeInputProps('emoji')} />
@@ -58,7 +59,7 @@ export function EditResourceType({ resourceType }: ResourceTypeUpdateProps) {
         <Submit text="Save" submitting={submitting} error={error} />
         <UnderConstruction />
       </Form>
-    </SmallFormContainer>
+    </Belt>
   )
 }
 

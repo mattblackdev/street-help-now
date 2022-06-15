@@ -62,8 +62,6 @@ const systems = [
         location.lng = lng
       }
 
-      console.log(JSON.stringify({ location }, null, 2))
-
       return { location }
     },
   },

@@ -1,8 +1,12 @@
+import { Meteor } from 'meteor/meteor'
 import { Mongo } from 'meteor/mongo'
+
+export type User = Meteor.User // As defined in /imports/users/meteor.d.ts
+export const Users = Meteor.users
 
 export type UserInvite = {
   _id: string
-  emailAddress: string
+  email: string
   invitedBy: string
   createdAt: Date
   lastEmailSent?: Date

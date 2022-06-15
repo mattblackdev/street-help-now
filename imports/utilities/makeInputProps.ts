@@ -1,5 +1,5 @@
 import { FieldPath, UseFormRegister } from 'react-hook-form'
-import { AnyObjectSchema } from 'yup'
+import { AnyObjectSchema, object } from 'yup'
 import { ValiantError } from './makeMethod'
 import { getFieldSchema } from './yup'
 
@@ -42,8 +42,11 @@ export function makeInputProps<TFieldValues>(
     required: presence === 'required',
     placeholder: label,
     error: !!errors[key],
-    helpText: errors[key],
     options,
+  }
+
+  if (errors[key]) {
+    Object.assign(inputProps, { helpText: errors[key] })
   }
 
   return inputProps

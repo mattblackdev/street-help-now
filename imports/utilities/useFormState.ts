@@ -9,7 +9,9 @@ export function useFormState() {
   const handleError = (error: Error | ValiantError) => {
     if (error instanceof ValiantError) {
       setErrors(error)
+      console.log('setErrors', error)
     } else {
+      console.log('setYamama', error.message)
       setError(error.message)
     }
     setSubmitting(false)
@@ -20,6 +22,7 @@ export function useFormState() {
     error,
     submitting,
     handleError,
+    setError,
     setSubmitting,
   }
 }

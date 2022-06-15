@@ -8,8 +8,11 @@ export async function fetchCoords(address) {
 
   const result = await geocoder.geocode(address)
 
-  if (!result.length) throw Error('Could not determine coordinates')
+  const indeterminate = new Error('Could not determine coordinates')
+  if (!result.length) throw indeterminate
 
   const { latitude, longitude } = result[0]
+  if (latitude === undefined || longitude === undefined) throw indeterminate
+
   return [latitude, longitude]
 }

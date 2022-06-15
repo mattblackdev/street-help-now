@@ -1,81 +1,88 @@
-import { Accounts } from 'meteor/accounts-base'
-import React, { useState } from 'react'
+import { Meteor } from 'meteor/meteor'
+import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
-import { Form, SmallFormContainer } from '/imports/components/Form'
+import { useNavigate, useParams } from 'react-router-dom'
+import { Belt } from '/imports/components/Belt'
+import { Form } from '/imports/components/Form'
 import { Input } from '/imports/components/Input'
 import { Submit } from '/imports/components/Submit'
-import {
-  PasswordPattern,
-  UsernamePattern,
-} from '/imports/utilities/regexPatterns'
+import { AcceptInvite, acceptInvite } from '/imports/users/api/acceptInvite'
+import { useUserId } from '/imports/users/useUser'
+import { makeMakeInputProps } from '/imports/utilities/makeInputProps'
+import { useFormState } from '/imports/utilities/useFormState'
 
 export function Signup() {
-  const [failed, setFailed] = useState(false)
-  const [submitting, setSubmitting] = useState(false)
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<{ username: string; password: string }>()
+  const userId = useUserId()
+  const { userInviteId = '' } = useParams()
+  const { error, errors, handleError, setError, setSubmitting, submitting } =
+    useFormState()
+  const { register, handleSubmit } = useForm<AcceptInvite>({
+    defaultValues: { userInviteId },
+  })
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if (userId) {
+      navigate('/')
+    }
+  }, [userId, navigate])
+  if (userId) {
+    return null
+  }
 
   const onSubmit = handleSubmit((data) => {
     setSubmitting(true)
-    Accounts.createUser(
-      { username: data.username, password: data.password },
+
+    acceptInvite(data).then(
+      () => {
+        Meteor.loginWithPassword(data.email, data.password, (err) => {
+          if (err) {
+            setError('Could not log in automatically. Redirecting to login...')
+            setTimeout(() => {
+              navigate('/login')
+            }, 3000)
+          } else {
+            setSubmitting(false)
+          }
+        })
+      },
       (error) => {
-        setSubmitting(false)
-        if (error) {
-          setFailed(true)
-        } else {
-          navigate('/')
-        }
+        handleError(error)
       }
     )
   })
 
+  const makeInputProps = makeMakeInputProps(
+    acceptInvite.schema,
+    register,
+    errors
+  )
+
   return (
-    <SmallFormContainer>
+    <Belt>
       <Form
         onSubmit={onSubmit}
         title="Create an account. We're glad you found us!"
       >
+        <Input {...register('userInviteId')} hidden />
         <Input
-          {...register('username', {
-            pattern: UsernamePattern,
-            minLength: 2,
-            maxLength: 100,
-            required: true,
-          })}
-          placeholder="Username"
+          autoComplete="email"
+          helpText="The email you were invited with"
+          {...makeInputProps('email')}
+        />
+        <Input
           autoComplete="username"
-          error={!!errors.username}
-          helpText="Use your real life name or any available username. Must be at least 2 letters or numbers."
+          helpText="Your real name or alias. At least 2 characters."
+          {...makeInputProps('username')}
         />
         <Input
-          {...register('password', {
-            pattern: PasswordPattern,
-            minLength: 10,
-            maxLength: 100,
-            required: true,
-          })}
-          type="password"
-          placeholder="Password"
           autoComplete="new-password"
-          error={!!errors.password}
-          helpText={`Craft a memorable phrase with at least 16 letters. Use lowercase and spaces only. For example: "i like to walk my dog".`}
+          helpText={`A memorable phrase with at least 16 characters. For example: "i like to walk my dog".`}
+          {...makeInputProps('password')}
+          type="password"
         />
-        <Submit
-          text="Sign Up"
-          submitting={submitting}
-          error={
-            failed
-              ? 'There was a problem signing up. Try a different username?'
-              : undefined
-          }
-        />
+        <Submit text="Sign Up" submitting={submitting} error={error} />
       </Form>
-    </SmallFormContainer>
+    </Belt>
   )
 }

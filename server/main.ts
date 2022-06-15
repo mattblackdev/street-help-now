@@ -1,27 +1,19 @@
 require('dotenv').config({ path: `${process.env.PWD}/.env` })
 import { Accounts } from 'meteor/accounts-base'
 import { Meteor } from 'meteor/meteor'
+import './imports'
+import './indices'
 import {
   Resource,
   Resources,
   ResourceType,
   ResourceTypes,
 } from '/imports/resources/api/collection'
-import '/imports/resources/api/publish'
-import '/imports/resources/api/requestResource'
-import '/imports/resources/api/resourceTypeUpdate'
-import { Users } from '/imports/users/api'
-import '/imports/users/publish'
+import { Users } from '/imports/users/api/collection'
 import {
   OneHundredPattern,
   Title16Pattern,
 } from '/imports/utilities/regexPatterns'
-
-Resources.createIndex(
-  { resourceTypeId: 1 },
-  { name: 'ResourceType reference on resources' }
-)
-Resources.createIndex({ createdBy: 1 }, { name: 'User reference on resources' })
 
 type ResourceTypeCreate = Omit<ResourceType, 'createdAt' | '_id'>
 function insertResourceType(resourceTypeCreate: ResourceTypeCreate) {
